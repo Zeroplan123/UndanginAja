@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: undanginaja
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://undanginaja.onrender.com
