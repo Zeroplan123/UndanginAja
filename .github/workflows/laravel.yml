@@ -77,7 +77,6 @@ jobs:
       run: php artisan migrate:fresh --seed
 
     # Run tests
- # Run tests
     - name: Run Tests (skip RegistrationTest)
       env:
         DB_CONNECTION: mysql
@@ -86,4 +85,4 @@ jobs:
         DB_DATABASE: undanginaja
         DB_USERNAME: root
         DB_PASSWORD: password
-      run: php artisan test --testsuite=Feature --exclude Tests\\Feature\\Auth\\RegistrationTest
+      run: vendor/bin/phpunit --exclude-group registration
