@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation - [bride_name] & [groom_name]</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background: #f8f9fa;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .invitation-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 3px solid #667eea;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .invitation-container::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid #667eea;
+            opacity: 0.3;
+        }
+
+        .header-ornament {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .invitation-title {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            color: #667eea;
+        }
+
+        .couple-names {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-style: italic;
+        }
+
+        .couple-names .separator {
+            font-size: 28px;
+            margin: 0 10px;
+            color: #667eea;
+        }
+
+        .wedding-date {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .wedding-time {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: #667eea;
+            margin: 25px auto;
+        }
+
+        .venue-section {
+            margin: 30px 0;
+        }
+
+        .venue-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .venue-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .venue-address {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .notes-section {
+            background: #f8f9ff;
+            margin: 30px -30px -40px;
+            padding: 25px 30px;
+            border-top: 2px solid #667eea;
+        }
+
+        .notes-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .notes-content {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .corner-decoration {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #667eea;
+        }
+
+        .corner-tl {
+            top: 20px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-tr {
+            top: 20px;
+            right: 20px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-bl {
+            bottom: 20px;
+            left: 20px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-br {
+            bottom: 20px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .invitation-container {
+                border: 2px solid #333;
+                max-width: none;
+                width: 100%;
+                margin: 0;
+            }
+
+            .invitation-container::before {
+                border-color: #333;
+            }
+
+            .corner-decoration {
+                border-color: #333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="corner-decoration corner-tl"></div>
+        <div class="corner-decoration corner-tr"></div>
+        <div class="corner-decoration corner-bl"></div>
+        <div class="corner-decoration corner-br"></div>
+
+        <div class="header-ornament">💐</div>
+        <div class="invitation-title">Wedding Invitation</div>
+        <div class="couple-names">
+            [bride_name]<span class="separator">&</span>[groom_name]
+        </div>
+
+        <div class="wedding-date">[wedding_date]</div>
+        <div class="wedding-time">[wedding_time]</div>
+
+        <div class="divider"></div>
+
+        <div class="venue-section">
+            <div class="venue-label">Bertempat di</div>
+            <div class="venue-name">[venue]</div>
+            <div class="venue-address">[location]</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="notes-section">
+            <div class="notes-label">Catatan</div>
+            <div class="notes-content">[additional_notes]</div>
+        </div>
+    </div>
+</body>
+</html>

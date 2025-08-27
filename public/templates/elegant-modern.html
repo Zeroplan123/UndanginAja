@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation - [bride_name] & [groom_name]</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .invitation-card {
+            max-width: 500px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 255, 255, 0.03) 2px,
+                rgba(255, 255, 255, 0.03) 4px
+            );
+        }
+
+        .header-ornament {
+            font-size: 32px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .invitation-label {
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .couple-names {
+            font-family: 'Dancing Script', cursive;
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .couple-names .separator {
+            font-size: 28px;
+            margin: 0 10px;
+            opacity: 0.8;
+        }
+
+        .card-body {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .wedding-date {
+            font-size: 24px;
+            font-weight: 500;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .wedding-time {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            margin: 25px auto;
+            border-radius: 1px;
+        }
+
+        .venue-section {
+            margin: 30px 0;
+        }
+
+        .venue-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .venue-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .venue-address {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .notes-section {
+            background: #f8f9ff;
+            margin: 30px -30px -40px;
+            padding: 25px 30px;
+            border-top: 1px solid #e8ebf7;
+        }
+
+        .notes-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #667eea;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .notes-content {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .decorative-corners {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .corner-tl {
+            top: 15px;
+            left: 15px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-tr {
+            top: 15px;
+            right: 15px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-bl {
+            bottom: 15px;
+            left: 15px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-br {
+            bottom: 15px;
+            right: 15px;
+            border-left: none;
+            border-top: none;
+        }
+
+        @media (max-width: 768px) {
+            .invitation-card {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .card-header {
+                padding: 30px 25px;
+            }
+
+            .couple-names {
+                font-size: 30px;
+            }
+
+            .card-body {
+                padding: 30px 25px;
+            }
+
+            .wedding-date {
+                font-size: 20px;
+            }
+
+            .notes-section {
+                margin: 25px -25px -30px;
+                padding: 20px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .card-header {
+                padding: 25px 20px;
+            }
+
+            .couple-names {
+                font-size: 26px;
+            }
+
+            .card-body {
+                padding: 25px 20px;
+            }
+
+            .notes-section {
+                margin: 20px -20px -25px;
+                padding: 18px 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .invitation-card {
+                box-shadow: none;
+                max-width: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-card">
+        <div class="decorative-corners corner-tl"></div>
+        <div class="decorative-corners corner-tr"></div>
+        <div class="decorative-corners corner-bl"></div>
+        <div class="decorative-corners corner-br"></div>
+
+        <div class="card-header">
+            <div class="header-ornament">💐</div>
+            <div class="invitation-label">Wedding Invitation</div>
+            <div class="couple-names">
+                [bride_name]<span class="separator">&</span>[groom_name]
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="wedding-date">[wedding_date]</div>
+            <div class="wedding-time">[wedding_time]</div>
+
+            <div class="divider"></div>
+
+            <div class="venue-section">
+                <div class="venue-label">Bertempat di</div>
+                <div class="venue-name">[venue]</div>
+                <div class="venue-address">[location]</div>
+            </div>
+
+            <div class="divider"></div>
+        </div>
+
+        <div class="notes-section">
+            <div class="notes-label">Catatan</div>
+            <div class="notes-content">[additional_notes]</div>
+        </div>
+    </div>
+</body>
+</html>

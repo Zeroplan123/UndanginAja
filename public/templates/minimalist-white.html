@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - [bride_name] & [groom_name]</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafafa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .invitation-container {
+            background: white;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .header-section {
+            padding: 60px 40px 40px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .invitation-type {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .couple-names {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.8rem;
+            font-weight: 400;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            line-height: 1.1;
+        }
+        
+        .separator {
+            font-size: 1.2rem;
+            color: #999;
+            margin: 0 15px;
+        }
+        
+        .wedding-date {
+            font-size: 14px;
+            color: #666;
+            font-weight: 400;
+        }
+        
+        .content-section {
+            padding: 40px;
+        }
+        
+        .event-info {
+            margin-bottom: 35px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-value {
+            font-size: 14px;
+            color: #1a1a1a;
+            font-weight: 400;
+            text-align: right;
+            max-width: 60%;
+        }
+        
+        .message-section {
+            background: #f9f9f9;
+            padding: 30px;
+            margin: 0 -40px -40px;
+            text-align: center;
+        }
+        
+        .message-text {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .signature {
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+        }
+        
+        @media (max-width: 600px) {
+            .invitation-container {
+                margin: 10px;
+            }
+            
+            .header-section {
+                padding: 40px 30px 30px;
+            }
+            
+            .couple-names {
+                font-size: 2.2rem;
+            }
+            
+            .content-section {
+                padding: 30px;
+            }
+            
+            .message-section {
+                margin: 0 -30px -30px;
+                padding: 25px;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .info-value {
+                text-align: left;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="header-section">
+            <div class="invitation-type">Wedding Invitation</div>
+            <div class="couple-names">
+                [bride_name]<span class="separator">&</span>[groom_name]
+            </div>
+            <div class="wedding-date">[wedding_date]</div>
+        </div>
+        
+        <div class="content-section">
+            <div class="event-info">
+                <div class="info-item">
+                    <div class="info-label">Date</div>
+                    <div class="info-value">[wedding_date]</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Time</div>
+                    <div class="info-value">[wedding_time]</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Venue</div>
+                    <div class="info-value">[venue]</div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Location</div>
+                    <div class="info-value">[location]</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="message-section">
+            <div class="message-text">
+                We would be honored by your presence as we celebrate our wedding day. 
+                Your love and support mean the world to us.
+            </div>
+            <div class="signature">With love and gratitude</div>
+        </div>
+    </div>
+</body>
+</html>

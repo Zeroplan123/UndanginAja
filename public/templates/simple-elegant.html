@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - [bride_name] & [groom_name]</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .invitation-card {
+            background: white;
+            max-width: 500px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 50px 30px;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: white;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+        
+        .invitation-title {
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .couple-names {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+        
+        .ampersand {
+            font-size: 2rem;
+            margin: 0 15px;
+            opacity: 0.8;
+        }
+        
+        .wedding-date {
+            font-size: 1rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .quote {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+        
+        .details {
+            margin-bottom: 30px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-size: 0.85rem;
+            color: #888;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .detail-value {
+            font-size: 0.95rem;
+            color: #333;
+            font-weight: 400;
+            text-align: right;
+            max-width: 60%;
+        }
+        
+        .closing {
+            background: #f8f9fa;
+            padding: 30px;
+            margin: 0 -30px -30px;
+            text-align: center;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .closing-text {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .signature {
+            color: #667eea;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .invitation-card {
+                margin: 10px;
+            }
+            
+            .couple-names {
+                font-size: 2.2rem;
+            }
+            
+            .header {
+                padding: 40px 25px;
+            }
+            
+            .content {
+                padding: 30px 25px;
+            }
+            
+            .closing {
+                margin: 0 -25px -25px;
+                padding: 25px;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .detail-value {
+                text-align: left;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-card">
+        <div class="header">
+            <div class="invitation-title">Wedding Invitation</div>
+            <div class="couple-names">
+                [bride_name]<span class="ampersand">&</span>[groom_name]
+            </div>
+            <div class="wedding-date">[wedding_date]</div>
+        </div>
+        
+        <div class="content">
+            <div class="quote">
+                "Cinta sejati adalah ketika dua jiwa bertemu dan menjadi satu dalam ikatan suci pernikahan"
+            </div>
+            
+            <div class="details">
+                <div class="detail-item">
+                    <div class="detail-label">Tanggal</div>
+                    <div class="detail-value">[wedding_date]</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Waktu</div>
+                    <div class="detail-value">[wedding_time]</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Tempat</div>
+                    <div class="detail-value">[venue]</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Alamat</div>
+                    <div class="detail-value">[location]</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="closing">
+            <div class="closing-text">
+                Kehadiran dan doa restu Anda merupakan kebahagiaan terbesar bagi kami. 
+                Terima kasih atas kasih sayang yang telah diberikan.
+            </div>
+            <div class="signature">Dengan penuh cinta</div>
+        </div>
+    </div>
+</body>
+</html>

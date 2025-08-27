@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - [bride_name] & [groom_name]</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Dancing+Script:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .invitation-card {
+            background: #ffffff;
+            max-width: 580px;
+            width: 100%;
+            border-radius: 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 8px solid #7fb069;
+            position: relative;
+        }
+        
+        .border-decoration {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid #a8cc8c;
+            pointer-events: none;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 50px 40px 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fdf6 100%);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .ornamental-top {
+            font-size: 3rem;
+            color: #7fb069;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+        
+        .invitation-title {
+            font-size: 1.3rem;
+            color: #4a6741;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+        
+        .main-names {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.2rem;
+            color: #2d4a2b;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        
+        .connector {
+            font-size: 2.5rem;
+            color: #7fb069;
+            margin: 0 20px;
+            font-weight: 400;
+        }
+        
+        .content-section {
+            padding: 40px;
+            background: white;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .verse {
+            text-align: center;
+            font-style: italic;
+            color: #5a6b54;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+        
+        .event-details {
+            background: #f8fdf6;
+            border: 1px solid #e1f0d7;
+            border-radius: 8px;
+            padding: 35px 30px;
+            margin-bottom: 30px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dotted #c8dcc0;
+        }
+        
+        .detail-row:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .detail-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .detail-icon {
+            font-size: 1.5rem;
+            color: #7fb069;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .detail-label {
+            font-size: 1rem;
+            color: #4a6741;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .detail-value {
+            font-size: 1.2rem;
+            color: #2d4a2b;
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .closing-section {
+            text-align: center;
+            background: linear-gradient(135deg, #f8fdf6 0%, #ffffff 100%);
+            padding: 35px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .closing-text {
+            color: #5a6b54;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .ornamental-bottom {
+            font-size: 2rem;
+            color: #7fb069;
+            margin-top: 20px;
+        }
+        
+        .gratitude {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #7fb069;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .invitation-card {
+                border-width: 6px;
+                margin: 10px;
+            }
+            
+            .border-decoration {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+            }
+            
+            .main-names {
+                font-size: 3.2rem;
+            }
+            
+            .header, .content-section, .closing-section {
+                padding: 30px 25px;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .detail-value {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-card">
+        <div class="border-decoration"></div>
+        
+        <div class="header">
+            <div class="ornamental-top">🌿</div>
+            <h1 class="invitation-title">Wedding Invitation</h1>
+            <div class="main-names">
+                [bride_name]<span class="connector">&</span>[groom_name]
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <p class="verse">
+                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu 
+                isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, 
+                dan dijadikan-Nya diantaramu rasa kasih dan sayang."
+            </p>
+            
+            <div class="event-details">
+                <div class="detail-row">
+                    <div class="detail-left">
+                        <div class="detail-icon">📅</div>
+                        <div class="detail-label">Tanggal</div>
+                    </div>
+                    <div class="detail-value">[wedding_date]</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-left">
+                        <div class="detail-icon">🕐</div>
+                        <div class="detail-label">Waktu</div>
+                    </div>
+                    <div class="detail-value">08:00 - Selesai</div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-left">
+                        <div class="detail-icon">📍</div>
+                        <div class="detail-label">Tempat</div>
+                    </div>
+                    <div class="detail-value">[venue]</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="closing-section">
+            <p class="closing-text">
+                Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i 
+                untuk hadir pada acara pernikahan kami. Atas kehadiran dan doa restunya, 
+                kami ucapkan terima kasih.
+            </p>
+            <div class="ornamental-bottom">🌿</div>
+            <div class="gratitude">Wassalamu'alaikum Wr. Wb.</div>
+        </div>
+    </div>
+</body>
+</html>

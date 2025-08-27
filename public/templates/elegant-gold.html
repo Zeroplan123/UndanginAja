@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - [bride_name] & [groom_name]</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .invitation-card {
+            background: white;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .invitation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d4af37, #ffd700, #d4af37);
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 30px 20px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+        }
+        
+        .ornament {
+            font-size: 2rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .names {
+            text-align: center;
+            padding: 30px;
+            background: white;
+        }
+        
+        .bride-groom {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .ampersand {
+            font-size: 2rem;
+            color: #d4af37;
+            margin: 0 20px;
+        }
+        
+        .details {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .detail-item {
+            margin-bottom: 20px;
+        }
+        
+        .detail-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .date {
+            font-size: 1.5rem;
+            color: #d4af37;
+            font-weight: 700;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: white;
+        }
+        
+        .closing {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .decorative-line {
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 20px auto;
+        }
+        
+        @media (max-width: 768px) {
+            .invitation-card {
+                margin: 10px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .bride-groom {
+                font-size: 2.5rem;
+            }
+            
+            .header, .names, .details, .footer {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-card">
+        <div class="header">
+            <div class="ornament">❦</div>
+            <h1 class="title">Undangan Pernikahan</h1>
+            <p class="subtitle">Wedding Invitation</p>
+        </div>
+        
+        <div class="names">
+            <div class="bride-groom">
+                [bride_name]<span class="ampersand">&</span>[groom_name]
+            </div>
+            <div class="decorative-line"></div>
+        </div>
+        
+        <div class="details">
+            <div class="detail-item">
+                <div class="detail-label">Tanggal</div>
+                <div class="detail-value date">[wedding_date]</div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-label">Tempat</div>
+                <div class="detail-value">[venue]</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p class="closing">
+                Dengan penuh kebahagiaan, kami mengundang Anda untuk berbagi kegembiraan 
+                dalam momen istimewa pernikahan kami.
+            </p>
+            <div class="decorative-line"></div>
+            <div class="ornament">❦</div>
+        </div>
+    </div>
+</body>
+</html>

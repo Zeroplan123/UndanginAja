@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Traditional Wedding Invitation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Pinyon+Script&family=Source+Serif+Pro:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Source Serif Pro', serif;
+            background: #f5f3f0;
+            color: #2d3748;
+            line-height: 1.7;
+        }
+        
+        .invitation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        
+        .decorative-border {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid #8b4513;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                transparent 10%, 
+                #8b4513 10%, 
+                #8b4513 12%, 
+                transparent 12%, 
+                transparent 88%, 
+                #8b4513 88%, 
+                #8b4513 90%, 
+                transparent 90%);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+        
+        .decorative-border::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid #8b4513;
+            opacity: 0.6;
+        }
+        
+        .content-area {
+            margin: 40px;
+            position: relative;
+            z-index: 1;
+            background: #ffffff;
+        }
+        
+        .header-section {
+            text-align: center;
+            padding: 60px 40px 50px;
+            background: linear-gradient(180deg, #ffffff 0%, #fafaf9 100%);
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .islamic-verse {
+            font-size: 20px;
+            color: #8b4513;
+            margin-bottom: 30px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            direction: rtl;
+        }
+        
+        .invitation-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 44px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: #718096;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .ornamental-line {
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #8b4513, transparent);
+            margin: 0 auto;
+        }
+        
+        .main-content {
+            padding: 50px 40px;
+        }
+        
+        .opening-text {
+            text-align: center;
+            font-size: 20px;
+            color: #4a5568;
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+        
+        .couple-section {
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+        }
+        
+        .couple-names {
+            margin: 40px 0;
+        }
+        
+        .bride-name, .groom-name {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 52px;
+            color: #8b4513;
+            margin: 20px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .couple-separator {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 20px;
+            color: #4a5568;
+            margin: 25px 0;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+        
+        .family-section {
+            background: #faf9f7;
+            padding: 50px 40px;
+            margin: 50px 0;
+            border-left: 4px solid #8b4513;
+            border-right: 4px solid #8b4513;
+        }
+        
+        .family-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 24px;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+        
+        .family-info {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .parent-block {
+            text-align: center;
+        }
+        
+        .parent-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 16px;
+            color: #8b4513;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .parent-names {
+            font-size: 20px;
+            color: #2d3748;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+        
+        .family-divider {
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, #8b4513, transparent);
+        }
+        
+        .ceremony-details {
+            background: #ffffff;
+            border: 2px solid #8b4513;
+            padding: 50px 40px;
+            margin: 50px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .ceremony-details::before {
+            content: '❦';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            color: #8b4513;
+            font-size: 30px;
+            padding: 0 15px;
+        }
+        
+        .ceremony-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 32px;
+            color: #2d3748;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+        
+        .ceremony-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .ceremony-item {
+            padding: 30px 20px;
+            background: #faf9f7;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        
+        .ceremony-icon {
+            font-size: 28px;
+            color: #8b4513;
+            margin-bottom: 20px;
+        }
+        
+        .ceremony-label {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .ceremony-value {
+            font-size: 20px;
+            color: #2d3748;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        
+        .venue-section {
+            background: linear-gradient(135deg, #faf9f7 0%, #f7fafc 100%);
+            padding: 50px 40px;
+            margin: 50px 0;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .venue-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        
+        .venue-name {
+            font-size: 26px;
+            color: #8b4513;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .venue-address {
+            font-size: 18px;
+            color: #4a5568;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .closing-section {
+            text-align: center;
+            padding: 50px 40px;
+            background: linear-gradient(180deg, #fafaf9 0%, #ffffff 100%);
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .closing-ornament {
+            font-size: 32px;
+            color: #8b4513;
+            margin-bottom: 30px;
+        }
+        
+        .closing-text {
+            font-size: 19px;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .signature-section {
+            margin-top: 40px;
+        }
+        
+        .signature {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 28px;
+            color: #8b4513;
+            margin-bottom: 15px;
+        }
+        
+        .signature-line {
+            width: 150px;
+            height: 1px;
+            background: #8b4513;
+            margin: 0 auto;
+        }
+        
+        .additional-info {
+            background: #faf9f7;
+            padding: 40px;
+            text-align: center;
+            font-size: 16px;
+            color: #4a5568;
+            border-top: 1px solid #e2e8f0;
+            font-style: italic;
+        }
+        
+        /* PDF Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .invitation-container {
+                box-shadow: none;
+                max-width: none;
+                width: 100%;
+            }
+            
+            .decorative-border {
+                border-color: #8b4513 !important;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .family-info {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .family-divider {
+                width: 60px;
+                height: 2px;
+                background: linear-gradient(to right, transparent, #8b4513, transparent);
+                margin: 0 auto;
+            }
+            
+            .ceremony-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .invitation-title {
+                font-size: 36px;
+            }
+            
+            .bride-name, .groom-name {
+                font-size: 42px;
+            }
+            
+            .content-area {
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="decorative-border"></div>
+        
+        <div class="content-area">
+            <div class="header-section">
+                <div class="islamic-verse">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</div>
+                <h1 class="invitation-title">Wedding Invitation</h1>
+                <p class="subtitle">We cordially invite you to join us in celebration</p>
+                <div class="ornamental-line"></div>
+            </div>
+            
+            <div class="main-content">
+                <div class="opening-text">
+                    With immense joy and gratitude to Allah SWT, we request the honor of your presence 
+                    at the wedding ceremony uniting two hearts in holy matrimony.
+                </div>
+                
+                <div class="couple-section">
+                    <div class="couple-names">
+                        <div class="groom-name">[groom_name]</div>
+                        <div class="couple-separator">& </div>
+                        <div class="bride-name">[bride_name]</div>
+                    </div>
+                </div>
+                
+                <div class="family-section">
+                    <h3 class="family-title">Together with our beloved families</h3>
+                    <div class="family-info">
+                        <div class="parent-block">
+                            <div class="parent-title">Son of</div>
+                            <div class="parent-names">[groom_parents]</div>
+                        </div>
+                        <div class="family-divider"></div>
+                        <div class="parent-block">
+                            <div class="parent-title">Daughter of</div>
+                            <div class="parent-names">[bride_parents]</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ceremony-details">
+                    <h2 class="ceremony-title">Wedding Ceremony</h2>
+                    <div class="ceremony-grid">
+                        <div class="ceremony-item">
+                            <div class="ceremony-icon">📅</div>
+                            <div class="ceremony-label">Date</div>
+                            <div class="ceremony-value">[wedding_date]</div>
+                        </div>
+                        <div class="ceremony-item">
+                            <div class="ceremony-icon">🕐</div>
+                            <div class="ceremony-label">Time</div>
+                            <div class="ceremony-value">[wedding_time]</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="venue-section">
+                    <h3 class="venue-title">Venue</h3>
+                    <div class="venue-name">[venue]</div>
+                    <div class="venue-address">[location]</div>
+                </div>
+            </div>
+            
+            <div class="closing-section">
+                <div class="closing-ornament">❦ ❦ ❦</div>
+                <p class="closing-text">
+                    Your presence and blessings on this auspicious occasion would bring us immense joy 
+                    and make our celebration complete. We look forward to sharing this blessed moment with you.
+                </p>
+                
+                <div class="signature-section">
+                    <div class="signature">With warm regards and respect</div>
+                    <div class="signature-line"></div>
+                </div>
+            </div>
+            
+            <div class="additional-info">
+                [additional_notes]
+            </div>
+        </div>
+    </div>
+</body>
+</html>

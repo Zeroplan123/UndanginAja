@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Minimalist Wedding Invitation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Dancing+Script:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f8f9fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .invitation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 40px 60px;
+            position: relative;
+        }
+        
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="20" cy="80" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .invitation-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .main-content {
+            padding: 60px 40px;
+        }
+        
+        .couple-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .couple-names {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .name-block {
+            text-align: center;
+        }
+        
+        .bride-name, .groom-name {
+            font-size: 48px;
+            font-weight: 300;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+        
+        .name-subtitle {
+            font-size: 14px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+        
+        .couple-separator {
+            font-size: 24px;
+            color: #667eea;
+            font-weight: 300;
+        }
+        
+        .parents-section {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            align-items: center;
+            margin: 50px 0;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .parent-info {
+            text-align: center;
+        }
+        
+        .parent-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .parent-names {
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        
+        .separator-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, #667eea, transparent);
+        }
+        
+        .event-details {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin: 50px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .event-details::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #667eea);
+            border-radius: 22px;
+            z-index: -1;
+        }
+        
+        .event-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            letter-spacing: -0.5px;
+        }
+        
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .event-item {
+            text-align: center;
+        }
+        
+        .event-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .event-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .event-value {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+        
+        .venue-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 50px 40px;
+            border-radius: 20px;
+            margin: 50px 0;
+            text-align: center;
+        }
+        
+        .venue-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .venue-name {
+            font-size: 32px;
+            font-weight: 300;
+            color: #667eea;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .venue-address {
+            font-size: 18px;
+            color: #5d6d7e;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .closing-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+        }
+        
+        .closing-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+        }
+        
+        .closing-text {
+            font-size: 20px;
+            margin-bottom: 30px;
+            font-weight: 300;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 28px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .additional-notes {
+            text-align: center;
+            padding: 40px;
+            font-size: 16px;
+            color: #7f8c8d;
+            font-style: italic;
+            background: #f8f9fa;
+        }
+        
+        /* PDF Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .invitation-container {
+                box-shadow: none;
+                max-width: none;
+                width: 100%;
+            }
+            
+            .header-section,
+            .closing-section {
+                background: #667eea !important;
+                color: white !important;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .couple-names {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .parents-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .separator-line {
+                width: 60px;
+                height: 1px;
+                background: linear-gradient(to right, transparent, #667eea, transparent);
+            }
+            
+            .event-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="header-section">
+            <h1 class="invitation-title">Wedding Invitation</h1>
+            <p class="subtitle">Together with our families</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="couple-section">
+                <div class="couple-names">
+                    <div class="name-block">
+                        <div class="groom-name">[groom_name]</div>
+                        <div class="name-subtitle">Groom</div>
+                    </div>
+                    <div class="couple-separator">&</div>
+                    <div class="name-block">
+                        <div class="bride-name">[bride_name]</div>
+                        <div class="name-subtitle">Bride</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="parents-section">
+                <div class="parent-info">
+                    <div class="parent-label">Son of</div>
+                    <div class="parent-names">[groom_parents]</div>
+                </div>
+                <div class="separator-line"></div>
+                <div class="parent-info">
+                    <div class="parent-label">Daughter of</div>
+                    <div class="parent-names">[bride_parents]</div>
+                </div>
+            </div>
+            
+            <div class="event-details">
+                <h2 class="event-title">Wedding Ceremony</h2>
+                <div class="event-grid">
+                    <div class="event-item">
+                        <div class="event-icon">📅</div>
+                        <div class="event-label">Date</div>
+                        <div class="event-value">[wedding_date]</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-icon">🕐</div>
+                        <div class="event-label">Time</div>
+                        <div class="event-value">[wedding_time]</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="venue-section">
+                <h3 class="venue-title">Venue</h3>
+                <div class="venue-name">[venue]</div>
+                <div class="venue-address">[location]</div>
+            </div>
+        </div>
+        
+        <div class="closing-section">
+            <p class="closing-text">
+                Your presence would be the greatest gift of all.<br>
+                We can't wait to celebrate with you!
+            </p>
+            <div class="signature">With love</div>
+        </div>
+        
+        <div class="additional-notes">
+            [additional_notes]
+        </div>
+    </div>
+</body>
+</html>

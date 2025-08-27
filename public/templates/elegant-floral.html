@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant Floral Wedding Invitation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Great+Vibes&family=Lato:wght@300;400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            background: #faf8f5;
+            color: #3a3a3a;
+            line-height: 1.6;
+        }
+        
+        .invitation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .floral-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="floral" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M25,10 Q30,15 25,20 Q20,15 25,10" fill="%23e8d5c4" opacity="0.3"/><path d="M10,25 Q15,30 10,35 Q5,30 10,25" fill="%23e8d5c4" opacity="0.3"/><path d="M40,25 Q45,30 40,35 Q35,30 40,25" fill="%23e8d5c4" opacity="0.3"/><path d="M25,40 Q30,45 25,50 Q20,45 25,40" fill="%23e8d5c4" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23floral)"/></svg>') repeat;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .header-section {
+            background: linear-gradient(135deg, #f7f1e8 0%, #e8d5c4 100%);
+            text-align: center;
+            padding: 80px 40px 60px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .ornamental-top {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+            margin: 0 auto 40px;
+        }
+        
+        .invitation-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 64px;
+            color: #8b6f47;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-family: 'Crimson Text', serif;
+            font-size: 22px;
+            color: #6b5b73;
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+        
+        .ornamental-bottom {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+            margin: 0 auto;
+        }
+        
+        .main-content {
+            padding: 60px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .couple-section {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .couple-intro {
+            font-family: 'Crimson Text', serif;
+            font-size: 20px;
+            color: #6b5b73;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        
+        .couple-names {
+            margin: 50px 0;
+        }
+        
+        .bride-name, .groom-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 52px;
+            color: #8b6f47;
+            margin: 20px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .couple-separator {
+            font-family: 'Crimson Text', serif;
+            font-size: 28px;
+            color: #c9a96e;
+            margin: 30px 0;
+            font-style: italic;
+        }
+        
+        .parents-section {
+            background: #faf8f5;
+            padding: 50px 40px;
+            margin: 50px 0;
+            border-radius: 15px;
+            border: 1px solid #e8d5c4;
+            position: relative;
+        }
+        
+        .parents-section::before {
+            content: '❦';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            color: #c9a96e;
+            font-size: 30px;
+            padding: 0 20px;
+        }
+        
+        .parents-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 24px;
+            color: #6b5b73;
+            text-align: center;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        
+        .parents-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .parent-info {
+            text-align: center;
+        }
+        
+        .parent-label {
+            font-family: 'Crimson Text', serif;
+            font-size: 16px;
+            color: #8b6f47;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .parent-names {
+            font-size: 20px;
+            color: #3a3a3a;
+            line-height: 1.4;
+        }
+        
+        .parents-divider {
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, #c9a96e, transparent);
+        }
+        
+        .event-details {
+            background: #ffffff;
+            border: 2px solid #e8d5c4;
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin: 50px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .event-details::before {
+            content: '✿';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            color: #c9a96e;
+            font-size: 40px;
+            padding: 0 15px;
+        }
+        
+        .event-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 42px;
+            color: #8b6f47;
+            margin-bottom: 40px;
+        }
+        
+        .event-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .info-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: #faf8f5;
+            border-radius: 15px;
+            border: 1px solid #e8d5c4;
+        }
+        
+        .info-icon {
+            font-size: 32px;
+            color: #c9a96e;
+            margin-bottom: 20px;
+        }
+        
+        .info-label {
+            font-family: 'Crimson Text', serif;
+            font-size: 16px;
+            color: #6b5b73;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .info-value {
+            font-size: 22px;
+            color: #3a3a3a;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+        
+        .venue-section {
+            background: linear-gradient(135deg, #f7f1e8 0%, #e8d5c4 100%);
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin: 50px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .venue-section::before {
+            content: '🌿';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            font-size: 50px;
+            padding: 0 20px;
+        }
+        
+        .venue-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 36px;
+            color: #8b6f47;
+            margin-bottom: 30px;
+        }
+        
+        .venue-name {
+            font-family: 'Crimson Text', serif;
+            font-size: 28px;
+            color: #6b5b73;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .venue-address {
+            font-size: 18px;
+            color: #3a3a3a;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .closing-section {
+            background: #ffffff;
+            text-align: center;
+            padding: 60px 40px;
+            border-top: 1px solid #e8d5c4;
+        }
+        
+        .closing-ornament {
+            font-size: 40px;
+            color: #c9a96e;
+            margin-bottom: 30px;
+        }
+        
+        .closing-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 20px;
+            color: #6b5b73;
+            margin-bottom: 30px;
+            font-style: italic;
+            line-height: 1.6;
+        }
+        
+        .signature {
+            font-family: 'Great Vibes', cursive;
+            font-size: 32px;
+            color: #8b6f47;
+            margin-bottom: 20px;
+        }
+        
+        .signature-line {
+            width: 150px;
+            height: 1px;
+            background: #c9a96e;
+            margin: 0 auto;
+        }
+        
+        .additional-notes {
+            background: #faf8f5;
+            padding: 40px;
+            text-align: center;
+            font-size: 16px;
+            color: #6b5b73;
+            font-style: italic;
+            border-top: 1px solid #e8d5c4;
+        }
+        
+        /* PDF Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .invitation-container {
+                box-shadow: none;
+                max-width: none;
+                width: 100%;
+            }
+            
+            .floral-border {
+                display: none;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .parents-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .parents-divider {
+                width: 80px;
+                height: 1px;
+                background: linear-gradient(to right, transparent, #c9a96e, transparent);
+                margin: 0 auto;
+            }
+            
+            .event-info {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .invitation-title {
+                font-size: 48px;
+            }
+            
+            .bride-name, .groom-name {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="floral-border"></div>
+        
+        <div class="header-section">
+            <div class="ornamental-top"></div>
+            <h1 class="invitation-title">Wedding Invitation</h1>
+            <p class="subtitle">Two hearts, one love, one life together</p>
+            <div class="ornamental-bottom"></div>
+        </div>
+        
+        <div class="main-content">
+            <div class="couple-section">
+                <p class="couple-intro">With joy in our hearts, we invite you to witness the union of</p>
+                
+                <div class="couple-names">
+                    <div class="groom-name">[groom_name]</div>
+                    <div class="couple-separator">and</div>
+                    <div class="bride-name">[bride_name]</div>
+                </div>
+            </div>
+            
+            <div class="parents-section">
+                <h3 class="parents-title">Together with our loving families</h3>
+                <div class="parents-grid">
+                    <div class="parent-info">
+                        <div class="parent-label">Son of</div>
+                        <div class="parent-names">[groom_parents]</div>
+                    </div>
+                    <div class="parents-divider"></div>
+                    <div class="parent-info">
+                        <div class="parent-label">Daughter of</div>
+                        <div class="parent-names">[bride_parents]</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="event-details">
+                <h2 class="event-title">Wedding Ceremony</h2>
+                <div class="event-info">
+                    <div class="info-item">
+                        <div class="info-icon">📅</div>
+                        <div class="info-label">Date</div>
+                        <div class="info-value">[wedding_date]</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🕐</div>
+                        <div class="info-label">Time</div>
+                        <div class="info-value">[wedding_time]</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="venue-section">
+                <h3 class="venue-title">Venue</h3>
+                <div class="venue-name">[venue]</div>
+                <div class="venue-address">[location]</div>
+            </div>
+        </div>
+        
+        <div class="closing-section">
+            <div class="closing-ornament">❦</div>
+            <p class="closing-text">
+                Your presence at our wedding would be the greatest gift of all.<br>
+                We look forward to celebrating this special day with you.
+            </p>
+            <div class="signature">With all our love</div>
+            <div class="signature-line"></div>
+        </div>
+        
+        <div class="additional-notes">
+            [additional_notes]
+        </div>
+    </div>
+</body>
+</html>

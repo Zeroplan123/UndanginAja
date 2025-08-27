@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Classic Wedding Invitation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #f8f6f0 0%, #e8e2d5 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .invitation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ornamental-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 3px solid #d4af37;
+            margin: 20px;
+            pointer-events: none;
+        }
+        
+        .ornamental-border::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 1px solid #d4af37;
+            opacity: 0.5;
+        }
+        
+        .header-section {
+            text-align: center;
+            padding: 60px 40px 40px;
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+            position: relative;
+        }
+        
+        .bismillah {
+            font-size: 24px;
+            color: #d4af37;
+            margin-bottom: 30px;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+        
+        .invitation-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        
+        .main-content {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .couple-names {
+            margin-bottom: 40px;
+        }
+        
+        .bride-name, .groom-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .couple-separator {
+            font-size: 32px;
+            color: #d4af37;
+            margin: 20px 0;
+            font-weight: 300;
+        }
+        
+        .parents-info {
+            margin: 40px 0;
+            font-size: 18px;
+            color: #5d6d7e;
+            line-height: 1.8;
+        }
+        
+        .parent-names {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .event-details {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px;
+            margin: 40px 0;
+            border-radius: 10px;
+            border-left: 5px solid #d4af37;
+        }
+        
+        .event-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+        
+        .event-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .info-item {
+            text-align: left;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #d4af37;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .info-value {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: 400;
+        }
+        
+        .venue-section {
+            background: #ffffff;
+            padding: 40px;
+            margin: 40px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .venue-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .venue-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #d4af37;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .venue-address {
+            font-size: 18px;
+            color: #5d6d7e;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        .closing-section {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+        }
+        
+        .closing-text {
+            font-size: 18px;
+            color: #5d6d7e;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .signature {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .decorative-element {
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #d4af37 50%, transparent 100%);
+            margin: 30px auto;
+        }
+        
+        .ornament {
+            font-size: 24px;
+            color: #d4af37;
+            margin: 20px 0;
+        }
+        
+        /* PDF Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .invitation-container {
+                box-shadow: none;
+                max-width: none;
+                width: 100%;
+            }
+            
+            .ornamental-border {
+                border-color: #d4af37 !important;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="ornamental-border"></div>
+        
+        <div class="header-section">
+            <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</div>
+            <h1 class="invitation-title">Wedding Invitation</h1>
+            <p class="subtitle">With great joy, we invite you to celebrate our union</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="couple-names">
+                <div class="groom-name">[groom_name]</div>
+                <div class="couple-separator">♦</div>
+                <div class="bride-name">[bride_name]</div>
+            </div>
+            
+            <div class="decorative-element"></div>
+            
+            <div class="parents-info">
+                <p>Son of <span class="parent-names">Mr. & Mrs. [groom_parents]</span></p>
+                <div class="ornament">❦</div>
+                <p>Daughter of <span class="parent-names">Mr. & Mrs. [bride_parents]</span></p>
+            </div>
+            
+            <div class="event-details">
+                <h2 class="event-title">Wedding Ceremony</h2>
+                <div class="event-info">
+                    <div class="info-item">
+                        <div class="info-label">Date</div>
+                        <div class="info-value">[wedding_date]</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Time</div>
+                        <div class="info-value">[wedding_time]</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="venue-section">
+                <h3 class="venue-title">Venue</h3>
+                <div class="venue-name">[venue]</div>
+                <div class="venue-address">[location]</div>
+            </div>
+            
+            <div class="decorative-element"></div>
+            
+            <div class="closing-section">
+                <p class="closing-text">
+                    Your presence and blessings would make our special day complete.
+                    We look forward to celebrating with you.
+                </p>
+                <div class="signature">With love and gratitude</div>
+                <div class="ornament">❦</div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; font-size: 16px; color: #7f8c8d;">
+                [additional_notes]
+            </div>
+        </div>
+    </div>
+</body>
+</html>

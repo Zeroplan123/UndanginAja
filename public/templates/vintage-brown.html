@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - [bride_name] & [groom_name]</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pinyon+Script&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Libre Baskerville', serif;
+            background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .invitation-card {
+            background: #faf8f3;
+            max-width: 600px;
+            width: 100%;
+            border: 3px solid #8b4513;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(139, 69, 19, 0.2);
+        }
+        
+        .vintage-border {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 1px solid #cd853f;
+            pointer-events: none;
+        }
+        
+        .corner-ornaments {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #8b4513;
+        }
+        
+        .corner-ornaments::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 1px solid #cd853f;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+        
+        .corner-ornaments.top-left {
+            top: 8px;
+            left: 8px;
+        }
+        
+        .corner-ornaments.top-right {
+            top: 8px;
+            right: 8px;
+        }
+        
+        .corner-ornaments.bottom-left {
+            bottom: 8px;
+            left: 8px;
+        }
+        
+        .corner-ornaments.bottom-right {
+            bottom: 8px;
+            right: 8px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 60px 50px 40px;
+            background: linear-gradient(135deg, #faf8f3 0%, #f5f2e8 100%);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .vintage-ornament {
+            font-size: 2.5rem;
+            color: #8b4513;
+            margin-bottom: 25px;
+        }
+        
+        .invitation-label {
+            font-size: 0.9rem;
+            color: #8b4513;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+        
+        .couple-names {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 4rem;
+            color: #654321;
+            margin-bottom: 25px;
+            line-height: 1;
+        }
+        
+        .and-symbol {
+            font-size: 2.8rem;
+            color: #8b4513;
+            margin: 0 25px;
+        }
+        
+        .wedding-info {
+            font-size: 1rem;
+            color: #8b4513;
+            font-style: italic;
+        }
+        
+        .content {
+            padding: 40px 50px;
+            background: #faf8f3;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .scripture {
+            text-align: center;
+            font-style: italic;
+            color: #654321;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        .scripture::before,
+        .scripture::after {
+            content: '❝';
+            font-size: 2rem;
+            color: #cd853f;
+            position: absolute;
+        }
+        
+        .scripture::before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .scripture::after {
+            content: '❞';
+            bottom: -20px;
+            right: 0;
+        }
+        
+        .event-details {
+            background: #f5f2e8;
+            border: 2px solid #deb887;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .detail-header {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #8b4513;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dotted #cd853f;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-size: 0.9rem;
+            color: #8b4513;
+            font-weight: 700;
+        }
+        
+        .detail-value {
+            font-size: 0.9rem;
+            color: #654321;
+            text-align: right;
+            max-width: 60%;
+        }
+        
+        .closing {
+            text-align: center;
+            background: linear-gradient(135deg, #f5f2e8 0%, #faf8f3 100%);
+            padding: 40px 50px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .closing-text {
+            color: #654321;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .signature-line {
+            width: 150px;
+            height: 1px;
+            background: #cd853f;
+            margin: 20px auto;
+        }
+        
+        .signature {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 1.8rem;
+            color: #8b4513;
+        }
+        
+        @media (max-width: 768px) {
+            .invitation-card {
+                margin: 10px;
+                border-width: 2px;
+            }
+            
+            .vintage-border {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+            }
+            
+            .couple-names {
+                font-size: 3rem;
+            }
+            
+            .header, .content, .closing {
+                padding: 30px 25px;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .detail-value {
+                text-align: left;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-card">
+        <div class="vintage-border"></div>
+        <div class="corner-ornaments top-left"></div>
+        <div class="corner-ornaments top-right"></div>
+        <div class="corner-ornaments bottom-left"></div>
+        <div class="corner-ornaments bottom-right"></div>
+        
+        <div class="header">
+            <div class="vintage-ornament">❦</div>
+            <div class="invitation-label">Wedding Invitation</div>
+            <div class="couple-names">
+                [bride_name]<span class="and-symbol">&</span>[groom_name]
+            </div>
+            <div class="wedding-info">Request the honor of your presence</div>
+        </div>
+        
+        <div class="content">
+            <div class="scripture">
+                Dan Allah menciptakan manusia itu menurut gambar-Nya, 
+                menurut gambar Allah diciptakan-Nya dia; laki-laki dan perempuan diciptakan-Nya mereka.
+                <br><small>- Kejadian 1:27 -</small>
+            </div>
+            
+            <div class="event-details">
+                <div class="detail-header">Wedding Details</div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Date</div>
+                    <div class="detail-value">[wedding_date]</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Time</div>
+                    <div class="detail-value">[wedding_time]</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Venue</div>
+                    <div class="detail-value">[venue]</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Address</div>
+                    <div class="detail-value">[location]</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="closing">
+            <div class="closing-text">
+                Your presence would be the greatest gift of all as we begin this beautiful journey together. 
+                We look forward to celebrating with you on our special day.
+            </div>
+            <div class="signature-line"></div>
+            <div class="signature">With Love & Gratitude</div>
+        </div>
+    </div>
+</body>
+</html>
