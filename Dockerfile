@@ -20,13 +20,13 @@ COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /app
 
-# Copy project
+# Copy semua file project
 COPY . .
 
-# Install PHP dependencies
+# Install dependency Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Install Node dependencies & build frontend
+# Install dependency frontend (Vite) & build
 RUN npm install && npm run build
 
 # Cache Laravel config
@@ -35,5 +35,5 @@ RUN php artisan config:cache && php artisan route:cache && php artisan view:cach
 # Expose port
 EXPOSE 10000
 
-# Start Laravel
+# Jalankan Laravel
 CMD php artisan serve --host=0.0.0.0 --port=10000
