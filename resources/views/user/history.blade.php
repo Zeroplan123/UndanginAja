@@ -100,7 +100,7 @@
                                         </div>
 
                                         <!-- Additional Actions -->
-                                        <div class="flex space-x-2">
+                                        <div class="flex space-x-2 mb-2">
                                             <button class="flex-1 text-center text-gray-600 hover:text-pink-600 text-xs font-medium transition-colors duration-200"
                                                     onclick="copyInvitationLink('{{ route('user.invitation.preview', $invitation->slug) }}')">
                                                 📋 Salin Link
@@ -108,6 +108,14 @@
                                             <a href="{{ route('user.export-pdf', $invitation->slug) }}" 
                                                class="flex-1 text-center text-gray-600 hover:text-blue-600 text-xs font-medium transition-colors duration-200">
                                                 📄 Download PDF
+                                            </a>
+                                        </div>
+                                        
+                                        <!-- Communication Button -->
+                                        <div class="mt-2">
+                                            <a href="{{ route('communication.show', $invitation->slug) }}" 
+                                               class="w-full text-center bg-green-500 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 block">
+                                                 Kirim via Email & WhatsApp
                                             </a>
                                         </div>
                                     </div>

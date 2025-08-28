@@ -1,6 +1,9 @@
 <x-app-layout>
     <x-slot name="title">Dashboard</x-slot>
-    @vite('public/css/UserDashboard.css')
+
+    
+    
+    
     <div class="py-8 bg-white">
             <!-- Template Selection Section -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-2xl">

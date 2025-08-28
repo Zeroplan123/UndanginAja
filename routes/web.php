@@ -47,7 +47,19 @@ Route::middleware('auth', 'is_user')->group(function () {
     Route::get('/user/invitations/{slug}', [UserDashboardController::class, 'previewInvitation'])->name('user.invitation.preview');
     Route::get('/user/invitations/{slug}/export', [UserDashboardController::class, 'exportPDF'])->name('user.export-pdf');
     Route::delete('/user/invitations/{slug}', [UserDashboardController::class, 'deleteInvitation'])->name('user.delete-invitation');
+    
+    // Communication Routes
+    Route::get('/user/invitations/{slug}/communication', [App\Http\Controllers\CommunicationController::class, 'show'])->name('communication.show');
+    Route::post('/user/invitations/{slug}/send-email', [App\Http\Controllers\CommunicationController::class, 'sendEmail'])->name('communication.send-email');
+    Route::post('/user/invitations/{slug}/send-whatsapp', [App\Http\Controllers\CommunicationController::class, 'sendWhatsApp'])->name('communication.send-whatsapp');
+    Route::post('/user/invitations/{slug}/whatsapp-link', [App\Http\Controllers\CommunicationController::class, 'generateWhatsAppLink'])->name('communication.whatsapp-link');
+    Route::get('/user/invitations/{slug}/temp-pdf', [App\Http\Controllers\CommunicationController::class, 'generateTempPDF'])->name('communication.temp-pdf');
 });
+
+// Test Email Routes (for debugging)
+Route::get('/test-email-form', [App\Http\Controllers\TestEmailController::class, 'showTestForm'])->name('test.email.form');
+Route::post('/test-email', [App\Http\Controllers\TestEmailController::class, 'testEmail'])->name('test.email');
+Route::post('/test-direct-email', [App\Http\Controllers\EmailTestController::class, 'testDirectEmail'])->name('test.direct.email');
 
 Route::get('/admin/penyemangat', function () {
     return view('admin.penyemangat');
