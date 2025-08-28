@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="title">Kontrol Pengguna</x-slot>
-<script src="{{ asset('js/user_control.js') }}"></script>
+<script src="{{ asset('js/simple_ban.js') }}"></script>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="min-h-screen bg-gray-50 py-8">
@@ -173,11 +173,10 @@
                             </td>
                             <td class="px-6 py-4">
                                 @php
-                                    $status = $user->status ?? 'active';
+                                    $status = $user->is_banned ? 'banned' : 'active';
                                     $statusColors = [
                                         'active' => 'bg-green-100 text-green-800',
-                                        'banned' => 'bg-red-100 text-red-800',
-                                        'suspended' => 'bg-yellow-100 text-yellow-800'
+                                        'banned' => 'bg-red-100 text-red-800'
                                     ];
                                 @endphp
                                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $statusColors[$status] }}">
@@ -202,7 +201,7 @@
                                         class="text-green-600 hover:text-green-900 transition-colors">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                @if($user->status === 'banned')
+                                @if($user->is_banned)
                                     <button onclick="unbanUser({{ $user->id }})" 
                                             class="text-green-600 hover:text-green-900 transition-colors">
                                         <i class="fas fa-user-check"></i>
@@ -318,36 +317,25 @@
 
 <!-- Ban User Modal -->
 <div id="banUserModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
-    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-1/2 shadow-lg rounded-md bg-white">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
         <div class="mt-3">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-medium text-gray-900">Ban User</h3>
+                <h3 class="text-lg font-medium text-gray-900">Konfirmasi Ban User</h3>
                 <button onclick="closeModal('banUserModal')" class="text-gray-400 hover:text-gray-600">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
+            <div class="mb-6">
+                <p class="text-gray-600">Apakah Anda yakin ingin mem-ban user ini? User akan langsung di-ban secara permanen.</p>
+            </div>
             <form id="banUserForm">
                 <input type="hidden" id="banUserId" name="user_id">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Ban Duration</label>
-                    <select name="duration" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="1">1 Day</option>
-                        <option value="7">7 Days</option>
-                        <option value="30">30 Days</option>
-                        <option value="90">90 Days</option>
-                        <option value="permanent">Permanent</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Reason (optional)</label>
-                    <textarea name="reason" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter ban reason..."></textarea>
-                </div>
                 <div class="flex justify-end space-x-3">
                     <button type="button" onclick="closeModal('banUserModal')" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors">
-                        Cancel
+                        Batal
                     </button>
                     <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
-                        Ban User
+                        Ya, Ban User
                     </button>
                 </div>
             </form>

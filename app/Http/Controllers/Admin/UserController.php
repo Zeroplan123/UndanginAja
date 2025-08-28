@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class UserController extends Controller
@@ -28,7 +29,11 @@ class UserController extends Controller
         }
 
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            if ($request->status === 'banned') {
+                $query->where('is_banned', true);
+            } elseif ($request->status === 'active') {
+                $query->where('is_banned', false);
+            }
         }
 
         if ($request->filled('role')) {
@@ -40,8 +45,8 @@ class UserController extends Controller
 
         // Calculate statistics
         $totalUsers = User::count();
-        $activeUsers = User::where('status', 'active')->count();
-        $bannedUsers = User::where('status', 'banned')->count();
+        $activeUsers = User::where('is_banned', false)->count();
+        $bannedUsers = User::where('is_banned', true)->count();
         $adminUsers = User::where('role', 'admin')->count();
 
         return view('admin.user_control', compact(
@@ -65,14 +70,12 @@ class UserController extends Controller
             'name' => $user->name,
             'email' => $user->email,
             'role' => $user->role,
-            'status' => $user->status ?? 'active',
+            'is_banned' => $user->is_banned,
             'created_at' => $user->created_at,
-            'last_login_at' => $user->last_login_at,
             'invitations_count' => $user->invitations->count(),
             'avatar' => $user->avatar ?? null,
             'ban_reason' => $user->ban_reason,
             'banned_at' => $user->banned_at,
-            'ban_expires_at' => $user->ban_expires_at,
         ]);
     }
 
@@ -85,7 +88,6 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'role' => 'required|in:user,admin',
-            'status' => 'required|in:active,banned,suspended',
             'password' => 'nullable|string|min:8',
         ]);
 
@@ -99,7 +101,6 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role = $request->role;
-        $user->status = $request->status;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
@@ -114,79 +115,219 @@ class UserController extends Controller
     }
 
     /**
-     * Ban user
+     * Ban user - FIXED VERSION
      */
     public function ban(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
-            'reason' => 'nullable|string|max:500',
-            'duration' => 'required|in:permanent,1,7,30,90',
-        ]);
+        try {
+            // Enhanced validation
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|integer|exists:users,id',
+                'ban_reason' => 'nullable|string|max:500'
+            ]);
 
-        if ($validator->fails()) {
+            if ($validator->fails()) {
+                Log::error('Ban validation failed', [
+                    'errors' => $validator->errors()->toArray(),
+                    'request_data' => $request->all()
+                ]);
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            // Find user with explicit error handling
+            $user = User::find($request->user_id);
+            
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User tidak ditemukan'
+                ], 404);
+            }
+
+            // Don't allow banning admins
+            if ($user->role === 'admin') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak dapat mem-ban user admin'
+                ], 403);
+            }
+
+            // Check if user is already banned
+            if ($user->status === 'banned') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User sudah dalam status banned'
+                ], 400);
+            }
+
+            // Log before ban attempt
+            Log::info('Attempting to ban user', [
+                'user_id' => $user->id,
+                'current_status' => $user->status,
+                'admin_id' => auth()->id()
+            ]);
+
+            // Use mass assignment for atomic update
+            $updateResult = $user->update([
+                'status' => 'banned',
+                'ban_reason' => $request->ban_reason ?? 'Banned by admin',
+                'banned_at' => now(),
+                'ban_expires_at' => null
+            ]);
+
+            if (!$updateResult) {
+                Log::error('Failed to update user ban status', [
+                    'user_id' => $user->id,
+                    'update_result' => $updateResult
+                ]);
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengupdate status user'
+                ], 500);
+            }
+
+            // Refresh the model to get latest data
+            $user->refresh();
+
+            // Verify the update was successful
+            if ($user->status !== 'banned') {
+                Log::error('Ban status verification failed', [
+                    'user_id' => $user->id,
+                    'expected_status' => 'banned',
+                    'actual_status' => $user->status
+                ]);
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Status user tidak berubah setelah update. Periksa database schema.'
+                ], 500);
+            }
+
+            Log::info('User banned successfully', [
+                'user_id' => $user->id,
+                'new_status' => $user->status,
+                'banned_at' => $user->banned_at,
+                'admin_id' => auth()->id()
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User berhasil di-ban',
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'status' => $user->status,
+                    'banned_at' => $user->banned_at->format('Y-m-d H:i:s'),
+                    'ban_reason' => $user->ban_reason
+                ]
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Ban user exception', [
+                'user_id' => $request->user_id ?? 'unknown',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'admin_id' => auth()->id()
+            ]);
+            
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
+                'message' => 'Terjadi kesalahan saat mem-ban user: ' . $e->getMessage()
+            ], 500);
         }
-
-        $user = User::findOrFail($request->user_id);
-
-        // Don't allow banning admins
-        if ($user->role === 'admin') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Tidak dapat mem-ban user admin'
-            ], 403);
-        }
-
-        $user->status = 'banned';
-        $user->ban_reason = $request->reason;
-        $user->banned_at = now();
-
-        // Set expiration date if not permanent
-        if ($request->duration !== 'permanent') {
-            $user->ban_expires_at = now()->addDays((int)$request->duration);
-        }
-
-        $user->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'User berhasil di-ban'
-        ]);
     }
 
     /**
-     * Unban user
+     * Unban user - ENHANCED VERSION
      */
     public function unban(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'user_id' => 'required|integer|exists:users,id',
+            ]);
 
-        if ($validator->fails()) {
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $user = User::find($request->user_id);
+            
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User tidak ditemukan'
+                ], 404);
+            }
+
+            // Check if user is actually banned
+            if ($user->status !== 'banned') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User tidak dalam status banned'
+                ], 400);
+            }
+
+            Log::info('Attempting to unban user', [
+                'user_id' => $user->id,
+                'current_status' => $user->status,
+                'admin_id' => auth()->id()
+            ]);
+
+            // Use mass assignment for atomic update
+            $updateResult = $user->update([
+                'status' => 'active',
+                'ban_reason' => null,
+                'banned_at' => null,
+                'ban_expires_at' => null
+            ]);
+
+            if (!$updateResult) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal mengupdate status user'
+                ], 500);
+            }
+
+            $user->refresh();
+
+            Log::info('User unbanned successfully', [
+                'user_id' => $user->id,
+                'new_status' => $user->status,
+                'admin_id' => auth()->id()
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User berhasil di-unban',
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'status' => $user->status
+                ]
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Unban user exception', [
+                'user_id' => $request->user_id ?? 'unknown',
+                'error' => $e->getMessage(),
+                'admin_id' => auth()->id()
+            ]);
+            
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
+                'message' => 'Terjadi kesalahan saat meng-unban user: ' . $e->getMessage()
+            ], 500);
         }
-
-        $user = User::findOrFail($request->user_id);
-
-        $user->status = 'active';
-        $user->ban_reason = null;
-        $user->banned_at = null;
-        $user->ban_expires_at = null;
-
-        $user->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'User berhasil di-unban'
-        ]);
     }
 
     /**
@@ -202,84 +343,144 @@ class UserController extends Controller
             ], 403);
         }
 
-        // Delete user's invitations first
-        $user->invitations()->delete();
-        
-        // Delete user
-        $user->delete();
+        try {
+            // Delete user's invitations first
+            $user->invitations()->delete();
+            
+            // Delete user
+            $user->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'User berhasil dihapus'
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'User berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Delete user exception', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage()
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus user: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
-     * Bulk actions
+     * Bulk actions - ENHANCED VERSION
      */
     public function bulkAction(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'action' => 'required|in:ban,unban,delete,change_role',
-            'user_ids' => 'required|array|min:1',
-            'user_ids.*' => 'exists:users,id',
-            'new_role' => 'required_if:action,change_role|in:user,admin',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'action' => 'required|in:ban,unban,delete,change_role',
+                'user_ids' => 'required|array|min:1',
+                'user_ids.*' => 'integer|exists:users,id',
+                'new_role' => 'required_if:action,change_role|in:user,admin',
+                'ban_reason' => 'nullable|string|max:500'
+            ]);
 
-        if ($validator->fails()) {
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $users = User::whereIn('id', $request->user_ids)->get();
+            $action = $request->action;
+            $successCount = 0;
+            $skippedCount = 0;
+            $errors = [];
+
+            foreach ($users as $user) {
+                // Skip admin users for certain actions
+                if ($user->role === 'admin' && in_array($action, ['ban', 'delete'])) {
+                    $skippedCount++;
+                    $errors[] = "Skipped admin user: {$user->name}";
+                    continue;
+                }
+
+                try {
+                    switch ($action) {
+                        case 'ban':
+                            if ($user->status !== 'banned') {
+                                $user->update([
+                                    'status' => 'banned',
+                                    'banned_at' => now(),
+                                    'ban_reason' => $request->ban_reason ?? 'Bulk ban action',
+                                    'ban_expires_at' => null
+                                ]);
+                                $successCount++;
+                            } else {
+                                $skippedCount++;
+                                $errors[] = "User {$user->name} already banned";
+                            }
+                            break;
+
+                        case 'unban':
+                            if ($user->status === 'banned') {
+                                $user->update([
+                                    'status' => 'active',
+                                    'banned_at' => null,
+                                    'ban_reason' => null,
+                                    'ban_expires_at' => null
+                                ]);
+                                $successCount++;
+                            } else {
+                                $skippedCount++;
+                                $errors[] = "User {$user->name} not banned";
+                            }
+                            break;
+
+                        case 'delete':
+                            $user->invitations()->delete();
+                            $user->delete();
+                            $successCount++;
+                            break;
+
+                        case 'change_role':
+                            $user->update(['role' => $request->new_role]);
+                            $successCount++;
+                            break;
+                    }
+                } catch (\Exception $e) {
+                    $errors[] = "Error processing user {$user->name}: " . $e->getMessage();
+                    Log::error('Bulk action error', [
+                        'user_id' => $user->id,
+                        'action' => $action,
+                        'error' => $e->getMessage()
+                    ]);
+                }
+            }
+
+            $message = "Bulk action completed: {$successCount} successful";
+            if ($skippedCount > 0) {
+                $message .= ", {$skippedCount} skipped";
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => $message,
+                'details' => [
+                    'successful' => $successCount,
+                    'skipped' => $skippedCount,
+                    'errors' => $errors
+                ]
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Bulk action exception', [
+                'action' => $request->action ?? 'unknown',
+                'error' => $e->getMessage()
+            ]);
+            
             return response()->json([
                 'success' => false,
-                'errors' => $validator->errors()
-            ], 422);
+                'message' => 'Bulk action failed: ' . $e->getMessage()
+            ], 500);
         }
-
-        $users = User::whereIn('id', $request->user_ids)->get();
-        $action = $request->action;
-        $successCount = 0;
-
-        foreach ($users as $user) {
-            // Skip admin users for certain actions
-            if ($user->role === 'admin' && in_array($action, ['ban', 'delete'])) {
-                continue;
-            }
-
-            switch ($action) {
-                case 'ban':
-                    $user->update([
-                        'status' => 'banned',
-                        'banned_at' => now(),
-                        'ban_reason' => 'Bulk ban action'
-                    ]);
-                    $successCount++;
-                    break;
-
-                case 'unban':
-                    $user->update([
-                        'status' => 'active',
-                        'banned_at' => null,
-                        'ban_reason' => null,
-                        'ban_expires_at' => null
-                    ]);
-                    $successCount++;
-                    break;
-
-                case 'delete':
-                    $user->invitations()->delete();
-                    $user->delete();
-                    $successCount++;
-                    break;
-
-                case 'change_role':
-                    $user->update(['role' => $request->new_role]);
-                    $successCount++;
-                    break;
-            }
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => "Bulk action berhasil dijalankan untuk {$successCount} user"
-        ]);
     }
 
     /**

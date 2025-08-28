@@ -42,32 +42,11 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        // Check if user is banned
-        if ($user->status === 'banned') {
-            // Check if ban has expired
-            if ($user->ban_expires_at && Carbon::now()->greaterThan($user->ban_expires_at)) {
-                // Ban has expired, unban the user
-                $user->update([
-                    'status' => 'active',
-                    'ban_reason' => null,
-                    'banned_at' => null,
-                    'ban_expires_at' => null
-                ]);
-            } else {
-                // User is still banned
-                $banMessage = 'Akun Anda telah dibanned.';
-                if ($user->ban_reason) {
-                }
-                return back()->withErrors([
-                    'email' => $banMessage,
-                ]);
-            }
-        }
-
-        // Check if user is suspended
-        if ($user->status === 'suspended') {
+        // Check if user is banned using new simple system
+        if ($user->is_banned) {
+            $banMessage = 'Akun Anda telah dibanned.';
             return back()->withErrors([
-                'email' => 'Akun Anda sedang disuspend. Silakan hubungi administrator.',
+                'email' => $banMessage,
             ]);
         }
 

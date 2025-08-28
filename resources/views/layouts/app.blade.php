@@ -20,10 +20,10 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <audio autoplay loop hidden>
+    <!-- <audio autoplay loop hidden>
         <source src="{{ asset('audio/hey.mp3') }}" type="audio/mpeg">
         Browser lo ga support audio.
-    </audio>
+    </audio> -->
     <body class="font-sans">
         <div class="min-h-screen bg-green">
             @include('layouts.navigation')
