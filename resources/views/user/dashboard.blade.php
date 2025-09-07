@@ -1,9 +1,8 @@
 <x-app-layout>
+    <!-- Di layout user -->
+<script src="{{ asset('js/broadcast-notifications.js') }}"></script>
+<meta name="user-role" content="{{ auth()->user()->role ?? 'guest' }}">
     <x-slot name="title">Dashboard</x-slot>
-
-    
-    
-    
     <div class="py-8 bg-white">
             <!-- Template Selection Section -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-2xl">
@@ -71,10 +70,4 @@
                     </div>
                 @endif
             </div>
-
-
-
-    <style>
-        
-    </style>
 </x-app-layout>

@@ -326,6 +326,40 @@ Route::prefix('admin/templates')->middleware(['auth', 'is_admin'])->group(functi
     Route::post('/{template}/generate', [TemplateController::class, 'generateHtml'])->name('templates.generate');
 });
 
+// Broadcast Routes (Admin)
+Route::prefix('admin/broadcasts')->middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/', [App\Http\Controllers\BroadcastController::class, 'index'])->name('admin.broadcasts.index');
+    Route::get('/create', [App\Http\Controllers\BroadcastController::class, 'create'])->name('admin.broadcasts.create');
+    Route::post('/', [App\Http\Controllers\BroadcastController::class, 'store'])->name('admin.broadcasts.store');
+    Route::get('/{broadcast}', [App\Http\Controllers\BroadcastController::class, 'show'])->name('admin.broadcasts.show');
+    Route::get('/{broadcast}/edit', [App\Http\Controllers\BroadcastController::class, 'edit'])->name('admin.broadcasts.edit');
+    Route::put('/{broadcast}', [App\Http\Controllers\BroadcastController::class, 'update'])->name('admin.broadcasts.update');
+    Route::delete('/{broadcast}', [App\Http\Controllers\BroadcastController::class, 'destroy'])->name('admin.broadcasts.destroy');
+    Route::post('/{broadcast}/send', [App\Http\Controllers\BroadcastController::class, 'send'])->name('admin.broadcasts.send');
+    Route::post('/{broadcast}/cancel', [App\Http\Controllers\BroadcastController::class, 'cancel'])->name('admin.broadcasts.cancel');
+    Route::get('/analytics/data', [App\Http\Controllers\BroadcastController::class, 'analytics'])->name('admin.broadcasts.analytics');
+});
+
+// Broadcast API Routes (User)
+Route::middleware('auth')->group(function () {
+    Route::get('/api/broadcasts', [App\Http\Controllers\BroadcastController::class, 'getUserBroadcasts'])->name('api.broadcasts.user');
+    Route::post('/api/broadcasts/{broadcast}/read', [App\Http\Controllers\BroadcastController::class, 'markAsRead'])->name('api.broadcasts.read');
+});
+
+// User Gallery Routes
+Route::prefix('user/gallery')->middleware(['auth', 'is_user'])->group(function () {
+    Route::get('/', [App\Http\Controllers\UserGalleryController::class, 'index'])->name('user.gallery.index');
+    Route::get('/create', [App\Http\Controllers\UserGalleryController::class, 'create'])->name('user.gallery.create');
+    Route::post('/', [App\Http\Controllers\UserGalleryController::class, 'store'])->name('user.gallery.store');
+    Route::get('/{gallery}', [App\Http\Controllers\UserGalleryController::class, 'show'])->name('user.gallery.show');
+    Route::get('/{gallery}/edit', [App\Http\Controllers\UserGalleryController::class, 'edit'])->name('user.gallery.edit');
+    Route::put('/{gallery}', [App\Http\Controllers\UserGalleryController::class, 'update'])->name('user.gallery.update');
+    Route::delete('/{gallery}', [App\Http\Controllers\UserGalleryController::class, 'destroy'])->name('user.gallery.destroy');
+    Route::get('/{gallery}/download', [App\Http\Controllers\UserGalleryController::class, 'download'])->name('user.gallery.download');
+    Route::post('/bulk-delete', [App\Http\Controllers\UserGalleryController::class, 'bulkDelete'])->name('user.gallery.bulk-delete');
+    Route::get('/api/statistics', [App\Http\Controllers\UserGalleryController::class, 'statistics'])->name('user.gallery.statistics');
+});
+
 // Chat Routes
 Route::middleware('auth')->group(function () {
     // User Chat Routes

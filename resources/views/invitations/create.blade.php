@@ -1,4 +1,4 @@
-<x-app-layout>
+ <x-app-layout>
     <x-slot name="title">Buat Undangan Baru</x-slot>
 <script src="{{ asset('js/create.js') }}"></script>
     <x-slot name="header">

@@ -90,6 +90,30 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the broadcasts for the user.
+     */
+    public function broadcasts()
+    {
+        return $this->hasMany(Broadcast::class, 'created_by');
+    }
+
+    /**
+     * Get the gallery items for the user.
+     */
+    public function galleryItems()
+    {
+        return $this->hasMany(UserGallery::class);
+    }
+
+    /**
+     * Get unread broadcasts for the user.
+     */
+    public function unreadBroadcasts()
+    {
+        return Broadcast::forUser($this)->unreadByUser($this);
+    }
+
+    /**
      * Ban the user.
      */
     public function ban(string $reason = null): bool

@@ -15,17 +15,26 @@
                     <x-nav-link :href="auth()->user()->role === 'admin' ? route('admin.dashboard') : route('dashboard')" :active="request()->routeIs('dashboard')" class="text-neutral-800">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    
+
+                    @if(auth()->user()->role === 'admin')
+                    <x-nav-link :href="route('admin.broadcasts.index')" :active="request()->routeIs('admin.broadcasts.index')" class="text-neutral-800">
+                        {{ __('broatcast') }}
+                    </x-nav-link>
+                    @endif
+
                     @if(auth()->user()->role === 'admin')
                          <x-nav-link :href="route('templates.index')" :active="request()->routeIs('dashboard')" class="text-neutral-800">
                         {{ __('Template') }}
                     </x-nav-link>
                     @endif
+
                       @if(auth()->user()->role === 'user')
                      <x-nav-link :href="route('user.history')" :active="request()->routeIs('user.history')" class="text-neutral-800">
                         {{ __('history') }}
                     </x-nav-link>
                   @endif
+
+                  
 
                    @if(auth()->user()->role === 'admin')
                          <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" class="text-neutral-800">
@@ -60,6 +69,13 @@
                         </span>
                     </x-nav-link>
                     @endif
+
+                    @if(auth()->user()->role === 'user')
+                     <x-nav-link :href="route('user.gallery.index')" :active="request()->routeIs('user.gallery.index')" class="text-neutral-800">
+                        {{ __('gallery') }}
+                    </x-nav-link>
+                  @endif
+
                 </div>
             </div>
 
@@ -142,6 +158,12 @@
         </div>
 
         <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('admin.broadcasts.index')" :active="request()->routeIs('admin.broadcasts.index')" class="text-neutral-800">
+            {{ __('Broadcasts') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.chat.index')" :active="request()->routeIs('admin.chat.*')" class="text-neutral-800 relative">
             {{ __('Chat Management') }}
             <span id="mobileAdminChatNotificationBadge" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -169,6 +191,12 @@
             <x-responsive-nav-link 
                 :href="route('user.history')" :active="request()->routeIs('user.history')" class="text-neutral-800">
                 {{ __('History') }}
+            </x-responsive-nav-link>
+
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link 
+                :href="route('user.gallery.index')" :active="request()->routeIs('user.gallery.index')" class="text-neutral-800">
+                {{ __('Galley') }}
             </x-responsive-nav-link>
         </div>
     @endif
