@@ -55,9 +55,9 @@
                         </span>
                     </x-nav-link>
 
-                         <x-nav-link :href="route('admin.penyemangat')" :active="request()->routeIs('admin.penyemangat')" class="text-neutral-800">
+                         {{-- <x-nav-link :href="route('admin.penyemangat')" :active="request()->routeIs('admin.penyemangat')" class="text-neutral-800">
                         {{ __('Penyemangat') }}
-                    </x-nav-link>
+                    </x-nav-link> --}}
                         
                     @endif
 

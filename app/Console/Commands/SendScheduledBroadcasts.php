@@ -24,9 +24,13 @@ class SendScheduledBroadcasts extends Command
     public function handle()
     {
         $this->info('Checking for scheduled broadcasts...');
+        
+        // Set timezone to Asia/Jakarta for accurate time comparison
+        $currentTime = now()->setTimezone('Asia/Jakarta');
+        $this->info("Current time (Jakarta): {$currentTime->format('Y-m-d H:i:s')}");
 
         $scheduledBroadcasts = Broadcast::where('status', 'scheduled')
-            ->where('scheduled_at', '<=', now())
+            ->where('scheduled_at', '<=', $currentTime)
             ->where('is_active', true)
             ->get();
 
@@ -39,16 +43,19 @@ class SendScheduledBroadcasts extends Command
 
         foreach ($scheduledBroadcasts as $broadcast) {
             try {
+                $scheduledTime = $broadcast->scheduled_at->setTimezone('Asia/Jakarta');
+                $this->info("Processing broadcast '{$broadcast->title}' scheduled for: {$scheduledTime->format('Y-m-d H:i:s')}");
+                
                 $broadcast->update([
                     'status' => 'sent',
-                    'sent_at' => now()
+                    'sent_at' => $currentTime
                 ]);
 
                 $sentCount++;
-                $this->info("Sent broadcast: {$broadcast->title}");
+                $this->info("✓ Sent broadcast: {$broadcast->title}");
 
             } catch (\Exception $e) {
-                $this->error("Failed to send broadcast {$broadcast->id}: {$e->getMessage()}");
+                $this->error("✗ Failed to send broadcast {$broadcast->id}: {$e->getMessage()}");
             }
         }
 

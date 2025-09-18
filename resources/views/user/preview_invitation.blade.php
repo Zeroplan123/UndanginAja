@@ -1,5 +1,5 @@
 <x-app-layout>
-    @vite('public/css/preview_invitation.css')
+    <link rel="stylesheet" href="{{ asset('css/preview_invitation.css') }}"?v={{ time() }}>
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
             <div class="flex items-center space-x-4">

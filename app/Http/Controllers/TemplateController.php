@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\template;
+use App\Rules\UniqueTemplateName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -27,11 +28,18 @@ class TemplateController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255', new UniqueTemplateName()],
             'description' => 'nullable|string|max:1000',
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'html_content' => 'required|string',
             'css_variables' => 'nullable|json',
+        ], [
+            'name.required' => 'Nama template wajib diisi.',
+            'name.max' => 'Nama template tidak boleh lebih dari 255 karakter.',
+            'html_content.required' => 'Konten HTML template wajib diisi.',
+            'cover_image.image' => 'File cover harus berupa gambar.',
+            'cover_image.mimes' => 'Cover image harus berformat: jpg, jpeg, png, atau gif.',
+            'cover_image.max' => 'Ukuran cover image tidak boleh lebih dari 2MB.',
         ]);
 
         $template = new Template();
@@ -71,11 +79,18 @@ class TemplateController extends Controller
     public function update(Request $request, Template $template)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255', new UniqueTemplateName($template->id)],
             'description' => 'nullable|string|max:1000',
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'html_content' => 'required|string',
             'css_variables' => 'nullable|json',
+        ], [
+            'name.required' => 'Nama template wajib diisi.',
+            'name.max' => 'Nama template tidak boleh lebih dari 255 karakter.',
+            'html_content.required' => 'Konten HTML template wajib diisi.',
+            'cover_image.image' => 'File cover harus berupa gambar.',
+            'cover_image.mimes' => 'Cover image harus berformat: jpg, jpeg, png, atau gif.',
+            'cover_image.max' => 'Ukuran cover image tidak boleh lebih dari 2MB.',
         ]);
 
         $template->name = $request->name;
@@ -175,5 +190,31 @@ class TemplateController extends Controller
         return response($html)
             ->header('Content-Type', 'text/html')
             ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+    }
+
+    /**
+     * Check if template name is available (AJAX endpoint)
+     */
+    public function checkName(Request $request)
+    {
+        $name = $request->input('name');
+        $ignoreId = $request->input('ignore_id');
+        
+        if (!$name) {
+            return response()->json(['exists' => false]);
+        }
+        
+        $query = Template::whereRaw('LOWER(name) = ?', [strtolower($name)]);
+        
+        if ($ignoreId) {
+            $query->where('id', '!=', $ignoreId);
+        }
+        
+        $exists = $query->exists();
+        
+        return response()->json([
+            'exists' => $exists,
+            'message' => $exists ? 'Nama template sudah digunakan' : 'Nama template tersedia'
+        ]);
     }
 }

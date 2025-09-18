@@ -133,20 +133,29 @@
 
                     <div>
                         <label class="text-sm font-medium text-gray-600">Created At</label>
-                        <div class="mt-1 text-sm text-gray-900">{{ $broadcast->created_at->format('M d, Y H:i') }}</div>
+                        <div class="mt-1 text-sm text-gray-900">
+                            {{ $broadcast->created_at->setTimezone('Asia/Jakarta')->format('M d, Y H:i') }} WIB
+                            <span class="text-xs text-gray-500 block">{{ $broadcast->created_at->setTimezone('Asia/Jakarta')->diffForHumans() }}</span>
+                        </div>
                     </div>
 
                     @if($broadcast->scheduled_at)
                         <div>
                             <label class="text-sm font-medium text-gray-600">Scheduled For</label>
-                            <div class="mt-1 text-sm text-gray-900">{{ $broadcast->scheduled_at->format('M d, Y H:i') }}</div>
+                            <div class="mt-1 text-sm text-gray-900">
+                                {{ $broadcast->scheduled_at->setTimezone('Asia/Jakarta')->format('M d, Y H:i') }} WIB
+                                <span class="text-xs text-gray-500 block">{{ $broadcast->scheduled_at->setTimezone('Asia/Jakarta')->diffForHumans() }}</span>
+                            </div>
                         </div>
                     @endif
 
                     @if($broadcast->sent_at)
                         <div>
                             <label class="text-sm font-medium text-gray-600">Sent At</label>
-                            <div class="mt-1 text-sm text-gray-900">{{ $broadcast->sent_at->format('M d, Y H:i') }}</div>
+                            <div class="mt-1 text-sm text-gray-900">
+                                {{ $broadcast->sent_at->setTimezone('Asia/Jakarta')->format('M d, Y H:i') }} WIB
+                                <span class="text-xs text-gray-500 block">{{ $broadcast->sent_at->setTimezone('Asia/Jakarta')->diffForHumans() }}</span>
+                            </div>
                         </div>
                     @endif
 

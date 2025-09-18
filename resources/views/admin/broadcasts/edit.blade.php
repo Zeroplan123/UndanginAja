@@ -116,10 +116,13 @@
                     <div id="schedule-section" class="{{ old('send_now') ? 'hidden' : '' }}">
                         <label for="scheduled_at" class="block text-sm font-medium text-gray-700 mb-2">Schedule for later (optional)</label>
                         <input type="datetime-local" id="scheduled_at" name="scheduled_at" 
-                               value="{{ old('scheduled_at', $broadcast->scheduled_at ? $broadcast->scheduled_at->format('Y-m-d\TH:i') : '') }}"
-                               min="{{ now()->format('Y-m-d\TH:i') }}"
+                               value="{{ old('scheduled_at', $broadcast->scheduled_at ? $broadcast->scheduled_at->setTimezone('Asia/Jakarta')->format('Y-m-d\TH:i') : '') }}"
+                               min="{{ now()->setTimezone('Asia/Jakarta')->format('Y-m-d\TH:i') }}"
                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <p class="text-sm text-gray-500 mt-1">Leave empty to save as draft</p>
+                        <p class="text-sm text-gray-500 mt-1">
+                            Leave empty to save as draft. Time is in WIB (Waktu Indonesia Barat)
+                            <br><span class="text-xs">Current time: {{ now()->setTimezone('Asia/Jakarta')->format('d M Y, H:i') }} WIB</span>
+                        </p>
                     </div>
                 </div>
             </div>

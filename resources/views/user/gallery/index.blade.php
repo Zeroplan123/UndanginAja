@@ -1,29 +1,23 @@
 <x-app-layout>
-<x-slot name="title">Memory</x-slot>
-<link rel="stylesheet" href="{{ asset('css/romantic-gallery.css') }}">
-<div class="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-white">
-    <!-- Romantic Header -->
-    <div class="relative overflow-hidden bg-gradient-to-r from-rose-100 via-pink-50 to-rose-100 py-12">
-        <div class="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
-        <div class="absolute top-0 left-0 w-full h-full">
-            <div class="absolute top-4 left-4 w-16 h-16 bg-rose-200/30 rounded-full animate-pulse"></div>
-            <div class="absolute top-8 right-8 w-8 h-8 bg-pink-200/40 rounded-full animate-bounce"></div>
-            <div class="absolute bottom-4 left-1/3 w-12 h-12 bg-rose-100/50 rounded-full"></div>
-        </div>
-        <div class="relative container mx-auto px-4">
-            <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold text-rose-800 mb-2 font-serif">
-                    <i class="fas fa-heart text-rose-400 mr-3"></i>
-                    My Romantic Gallery
-                    <i class="fas fa-heart text-rose-400 ml-3"></i>
-                </h1>
-                <p class="text-rose-600 text-lg italic font-serif">A treasure chest of beautiful memories</p>
-            </div>
-            <div class="flex justify-center">
-                <a href="{{ route('user.gallery.create') }}" class="romantic-upload-btn group">
-                    <i class="fas fa-camera mr-2 group-hover:animate-pulse"></i>
-                    Add New Memories
-                    <i class="fas fa-sparkles ml-2 group-hover:animate-spin"></i>
+<x-slot name="title">Gallery</x-slot>
+
+<!-- LightGallery Styles -->
+<link rel="stylesheet" href="{{ asset('css/lightgallery-custom.css') }}">
+<link rel="stylesheet" href="{{ asset('css/instagram-gallery.css') }}">
+
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">My Gallery</h1>
+                    <p class="text-gray-600 mt-1">{{ $galleryItems->total() }} photos</p>
+                </div>
+                <a href="{{ route('user.gallery.create') }}" 
+                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+                    <i class="fas fa-plus mr-2"></i>
+                    Upload Photos
                 </a>
             </div>
         </div>
@@ -32,147 +26,107 @@
     <div class="container mx-auto px-4 py-8">
 
         @if(session('success'))
-            <div class="romantic-success-alert mb-6">
-                <i class="fas fa-heart text-rose-500 mr-2"></i>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
                 {{ session('success') }}
-                <i class="fas fa-sparkles text-rose-400 ml-2"></i>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="romantic-error-alert mb-6">
-                <i class="fas fa-heart-broken text-red-500 mr-2"></i>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
                 {{ session('error') }}
             </div>
         @endif
 
-        <!-- Romantic Storage Usage -->
-        <div class="romantic-storage-card mb-8">
+        <!-- Storage Usage -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-rose-800 font-serif flex items-center">
-                    <i class="fas fa-gem text-rose-500 mr-2"></i>
-                    Memory Vault
-                </h3>
-                <span class="text-sm text-rose-600 font-medium bg-rose-50 px-3 py-1 rounded-full">
+                <h3 class="text-lg font-semibold text-gray-900">Storage Usage</h3>
+                <span class="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
                     {{ number_format($totalSize / 1024 / 1024, 2) }} MB / {{ number_format($maxSize / 1024 / 1024, 0) }} MB
                 </span>
             </div>
-            <div class="romantic-progress-container">
-                <div class="romantic-progress-bar" style="width: {{ min($usagePercentage, 100) }}%"></div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: {{ min($usagePercentage, 100) }}%"></div>
             </div>
             @if($usagePercentage > 80)
-                <p class="text-sm text-rose-600 mt-3 italic font-serif flex items-center">
-                    <i class="fas fa-exclamation-triangle text-amber-500 mr-2"></i>
-                    Your memory vault is {{ round($usagePercentage, 1) }}% full. Consider organizing your precious memories.
+                <p class="text-sm text-amber-600 mt-3 flex items-center">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    Storage is {{ round($usagePercentage, 1) }}% full. Consider removing some photos.
                 </p>
             @endif
         </div>
 
-        <!-- Romantic Search -->
-        <div class="romantic-search-card mb-8">
+        <!-- Search -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
             <form method="GET" action="{{ route('user.gallery.index') }}" class="flex flex-wrap gap-4">
                 <div class="flex-1 min-w-64">
                     <div class="relative">
-                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-rose-400"></i>
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                         <input type="text" name="search" value="{{ request('search') }}" 
-                               placeholder="Search your precious memories..." 
-                               class="romantic-search-input">
+                               placeholder="Search photos..." 
+                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
                 </div>
-                <button type="submit" class="romantic-search-btn">
-                    <i class="fas fa-heart mr-2"></i>Find Memories
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors duration-200">
+                    Search
                 </button>
-                <a href="{{ route('user.gallery.index') }}" class="romantic-clear-btn">
-                    <i class="fas fa-refresh mr-2"></i>Show All
+                <a href="{{ route('user.gallery.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition-colors duration-200">
+                    Clear
                 </a>
             </form>
         </div>
 
-        <!-- Romantic Bulk Actions -->
+        <!-- Bulk Actions -->
         @if($galleryItems->count() > 0)
-            <div class="romantic-bulk-card mb-8" id="bulk-actions" style="display: none;">
+            <div class="bg-white rounded-lg shadow-sm p-4 mb-6 hidden" id="bulk-actions">
                 <div class="flex justify-between items-center">
-                    <span id="selected-count" class="text-rose-700 font-serif italic">0 memories selected</span>
-                    <button type="button" onclick="bulkDelete()" class="romantic-delete-btn">
-                        <i class="fas fa-heart-broken mr-2"></i>Remove Selected
+                    <span id="selected-count" class="text-gray-700 font-medium">0 photos selected</span>
+                    <button type="button" onclick="bulkDelete()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-trash mr-2"></i>Delete Selected
                     </button>
                 </div>
             </div>
         @endif
 
-        <!-- Romantic Gallery Grid -->
+        <!-- Modern LightGallery Grid -->
         @if($galleryItems->count() > 0)
-            <div class="romantic-gallery-container">
-                <div class="romantic-gallery-grid">
-                    @foreach($galleryItems as $item)
-                        <div class="romantic-photo-frame group">
-                            <!-- Photo Frame Shadow -->
-                            <div class="romantic-frame-shadow"></div>
+            <div class="gallery-container" id="lightgallery">
+                <!-- Perfect Instagram Grid Layout with LightGallery Integration -->
+                <div class="instagram-grid">
+                    @foreach($galleryItems as $index => $item)
+                        <div class="gallery-item gallery-item-enhanced group gallery-item-link" 
+                             data-src="{{ asset('storage/' . $item->file_path) }}"
+                             data-sub-html="<h4>{{ $item->original_name }}</h4><p>{{ $item->caption ?: 'Uploaded on ' . $item->created_at->format('M d, Y') }}</p>">
                             
-                            <!-- Main Photo Frame -->
-                            <div class="romantic-frame-main">
-                                <div class="romantic-frame-inner">
-                                    <!-- Selection Checkbox -->
-                                    <input type="checkbox" value="{{ $item->id }}" 
-                                           class="gallery-checkbox romantic-checkbox" 
-                                           onchange="updateBulkActions()">
-                                    
-                                    <!-- Photo -->
-                                    <div class="romantic-photo-container">
-                                        <img src="{{ $item->thumbnail_url ?: $item->file_url }}" 
-                                             alt="{{ $item->caption ?: $item->original_name }}"
-                                             class="romantic-photo"
-                                             onclick="window.location.href='{{ route('user.gallery.show', $item) }}'">
-                                        
-                                        <!-- Photo Overlay -->
-                                        <div class="romantic-photo-overlay" onclick="window.location.href='{{ route('user.gallery.show', $item) }}'">
-                                            <div class="romantic-overlay-content">
-                                                <i class="fas fa-heart text-white text-2xl mb-2 animate-pulse"></i>
-                                                <p class="text-white text-sm font-serif">View Memory</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- File Size Badge -->
-                                        <div class="romantic-size-badge">
-                                            {{ $item->formatted_file_size }}
-                                        </div>
+                            <!-- Selection Checkbox -->
+                            <input type="checkbox" value="{{ $item->id }}" 
+                                   class="gallery-checkbox absolute top-2 left-2 z-30 w-4 h-4 text-blue-600 bg-white border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" 
+                                   onchange="updateBulkActions()" onclick="event.stopPropagation()">
+                            
+                            <!-- Photo Container with Perfect Square Aspect Ratio -->
+                            <div class="photo-container">
+                                <img src="{{ asset('storage/' . $item->file_path) }}" 
+                                     alt="{{ $item->caption ?: $item->original_name }}"
+                                     loading="lazy"
+                                     onerror="console.log('Image failed to load:', this.src); this.src='{{ asset('images/placeholder.jpg') }}'">
+                                
+                                <!-- Subtle Professional Hover Overlay -->
+                                <div class="photo-overlay absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                                    <div class="overlay-content opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-90 group-hover:scale-100 text-center">
+                                        <button class="view-photo-btn bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center shadow-lg">
+                                            <i class="fas fa-eye mr-2"></i>
+                                            View Photo
+                                        </button>
                                     </div>
-                                    
-                                    <!-- Photo Caption/Title -->
-                                    <div class="romantic-photo-caption">
-                                        <h3 class="romantic-photo-title">{{ Str::limit($item->original_name, 20) }}</h3>
-                                        @if($item->caption)
-                                            <p class="romantic-photo-description">{{ Str::limit($item->caption, 40) }}</p>
-                                        @endif
-                                        <div class="romantic-photo-meta">
-                                            <span class="romantic-date">{{ $item->created_at->format('M d, Y') }}</span>
-                                            @if($item->metadata && isset($item->metadata['width']))
-                                                <span class="romantic-dimensions">{{ $item->metadata['width'] }}×{{ $item->metadata['height'] }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Action Buttons -->
-                                    <div class="romantic-photo-actions">
-                                        <a href="{{ route('user.gallery.edit', $item) }}" 
-                                           class="romantic-action-btn romantic-edit-btn" title="Edit Memory">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="{{ route('user.gallery.download', $item) }}" 
-                                           class="romantic-action-btn romantic-download-btn" title="Save Memory">
-                                            <i class="fas fa-download"></i>
-                                        </a>
-                                        <form method="POST" action="{{ route('user.gallery.destroy', $item) }}" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" 
-                                                    class="romantic-action-btn romantic-remove-btn"
-                                                    onclick="return confirm('Remove this precious memory?')" 
-                                                    title="Remove Memory">
-                                                <i class="fas fa-heart-broken"></i>
-                                            </button>
-                                        </form>
-                                    </div>
+                                </div>
+                                
+                                <!-- File Size Badge -->
+                                <div class="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    {{ $item->formatted_file_size }}
+                                </div>
+                                
+                                <!-- Quick Actions -->
+                                <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 flex space-x-1">
                                 </div>
                             </div>
                         </div>
@@ -187,17 +141,14 @@
             </div>
         @endif
         @else
-            <div class="romantic-empty-gallery">
-                <div class="romantic-empty-content">
-                    <div class="romantic-empty-icon">
-                        <i class="fas fa-heart text-6xl text-rose-300 mb-4 animate-pulse"></i>
-                        <i class="fas fa-camera text-4xl text-rose-200 absolute transform -translate-x-2 translate-y-2"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-rose-700 mb-3 font-serif">Your Memory Gallery Awaits</h3>
-                    <p class="text-rose-500 mb-6 italic font-serif text-lg">Every love story deserves to be captured and cherished forever</p>
-                    <a href="{{ route('user.gallery.create') }}" class="romantic-first-upload-btn">
-                        <i class="fas fa-heart mr-2"></i>Create Your First Memory
-                        <i class="fas fa-sparkles ml-2"></i>
+            <div class="text-center py-16">
+                <div class="max-w-md mx-auto">
+                    <i class="fas fa-images text-6xl text-gray-300 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-700 mb-3">No Photos Yet</h3>
+                    <p class="text-gray-500 mb-6">Start building your gallery by uploading your first photo</p>
+                    <a href="{{ route('user.gallery.create') }}" 
+                       class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center">
+                        <i class="fas fa-plus mr-2"></i>Upload First Photo
                     </a>
                 </div>
             </div>
@@ -205,90 +156,154 @@
     </div>
 </div>
 
-<!-- Romantic Image Modal -->
-<div id="imageModal" class="romantic-modal">
-    <div class="romantic-modal-backdrop"></div>
-    <div class="romantic-modal-container">
-        <div class="romantic-modal-content">
-            <!-- Close Button -->
-            <button onclick="closeModal()" class="romantic-modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <!-- Image Container -->
-            <div class="romantic-modal-image-container">
-                <img id="modalImage" src="" alt="" class="romantic-modal-image">
-            </div>
-            
-            <!-- Caption and Actions -->
-            <div class="romantic-modal-info">
-                <div class="romantic-modal-caption-container">
-                    <h3 id="modalCaption" class="romantic-modal-caption"></h3>
-                </div>
-                <div class="romantic-modal-actions">
-                    <a id="modalEditLink" href="" class="romantic-modal-btn romantic-modal-edit-btn">
-                        <i class="fas fa-edit mr-2"></i>Edit Memory
-                    </a>
-                    <a id="modalDownloadLink" href="" class="romantic-modal-btn romantic-modal-download-btn">
-                        <i class="fas fa-download mr-2"></i>Save Memory
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- LightGallery will handle the lightbox modal -->
+
+<!-- LightGallery JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/fullscreen/lg-fullscreen.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/autoplay/lg-autoplay.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/share/lg-share.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/rotate/lg-rotate.min.js"></script>
 
 <script>
-function openModal(imageUrl, caption, itemId) {
-    console.log('Opening modal with:', imageUrl, caption, itemId); // Debug log
+document.addEventListener('DOMContentLoaded', function() {
+    const galleryElement = document.getElementById('lightgallery');
     
-    const modal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-    const modalCaption = document.getElementById('modalCaption');
-    const modalEditLink = document.getElementById('modalEditLink');
-    const modalDownloadLink = document.getElementById('modalDownloadLink');
-    
-    if (!modal || !modalImage || !modalCaption || !modalEditLink || !modalDownloadLink) {
-        console.error('Modal elements not found');
-        return;
+    if (galleryElement) {
+        // Initialize LightGallery with all features
+        const gallery = lightGallery(galleryElement, {
+            // Core settings
+            speed: 500,
+            
+            // Plugins
+            plugins: [lgThumbnail, lgZoom, lgFullscreen, lgAutoplay, lgShare, lgRotate],
+            
+            // Thumbnail settings
+            thumbnail: true,
+            thumbWidth: 100,
+            thumbHeight: 80,
+            thumbMargin: 5,
+            animateThumb: true,
+            currentPagerPosition: 'middle',
+            
+            // Zoom settings
+            zoom: true,
+            scale: 1,
+            enableZoomAfter: 300,
+            actualSize: true,
+            showZoomInOutIcons: true,
+            
+            // Fullscreen
+            fullScreen: true,
+            
+            // Autoplay
+            autoplay: false,
+            pause: 3000,
+            progressBar: true,
+            
+            // Share
+            share: true,
+            facebook: true,
+            facebookDropdownText: 'Facebook',
+            twitter: true,
+            twitterDropdownText: 'Twitter',
+            pinterest: true,
+            pinterestDropdownText: 'Pinterest',
+            
+            // Rotate
+            rotate: true,
+            flipHorizontal: true,
+            flipVertical: true,
+            
+            // Mobile settings
+            mobileSettings: {
+                controls: true,
+                showCloseIcon: true,
+                download: true,
+                rotate: true
+            },
+            
+            // Swipe settings
+            swipeThreshold: 50,
+            enableSwipe: true,
+            enableDrag: true,
+            
+            // Animation settings
+            mode: 'lg-slide',
+            cssEasing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+            
+            // Controls
+            controls: true,
+            download: true,
+            counter: true,
+            closable: true,
+            showMaximizeIcon: true,
+            appendSubHtmlTo: '.lg-sub-html',
+            subHtmlSelectorRelative: true,
+            
+            // Preload settings
+            preload: 2,
+            showAfterLoad: true,
+            
+            // Custom selectors
+            selector: '.gallery-item-link',
+            
+            // Event callbacks
+            onBeforeOpen: function() {
+                console.log('Gallery opening...');
+            },
+            
+            onAfterOpen: function() {
+                console.log('Gallery opened');
+            },
+            
+            onBeforeClose: function() {
+                console.log('Gallery closing...');
+            },
+            
+            onAfterClose: function() {
+                console.log('Gallery closed');
+            }
+        });
+        
+        // Add custom keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (gallery.lgOpened) {
+                switch(e.key) {
+                    case 'z':
+                    case 'Z':
+                        e.preventDefault();
+                        // Toggle zoom
+                        break;
+                    case 'r':
+                    case 'R':
+                        e.preventDefault();
+                        // Rotate image
+                        break;
+                    case 'f':
+                    case 'F':
+                        e.preventDefault();
+                        // Toggle fullscreen
+                        break;
+                }
+            }
+        });
     }
-    
-    modalImage.src = imageUrl;
-    modalCaption.textContent = caption || 'Untitled Memory';
-    modalEditLink.href = `/user/gallery/${itemId}/edit`;
-    modalDownloadLink.href = `/user/gallery/${itemId}/download`;
-    
-    // Show modal with romantic animation
-    modal.style.display = 'flex';
-    modal.classList.remove('romantic-modal-hidden');
-    modal.classList.add('romantic-modal-show');
-    document.body.style.overflow = 'hidden';
-}
+});
 
-function closeModal() {
-    const modal = document.getElementById('imageModal');
-    if (!modal) return;
-    
-    modal.classList.remove('romantic-modal-show');
-    modal.classList.add('romantic-modal-hidden');
-    
-    // Hide modal after animation
-    setTimeout(() => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }, 300);
-}
-
+// Bulk actions functionality
 function updateBulkActions() {
     const checkboxes = document.querySelectorAll('.gallery-checkbox:checked');
     const bulkActions = document.getElementById('bulk-actions');
     const selectedCount = document.getElementById('selected-count');
     
     if (checkboxes.length > 0) {
-        bulkActions.style.display = 'block';
+        bulkActions.classList.remove('hidden');
         selectedCount.textContent = `${checkboxes.length} photo${checkboxes.length > 1 ? 's' : ''} selected`;
     } else {
-        bulkActions.style.display = 'none';
+        bulkActions.classList.add('hidden');
     }
 }
 
@@ -319,19 +334,5 @@ function bulkDelete() {
     document.body.appendChild(form);
     form.submit();
 }
-
-// Close modal on escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeModal();
-    }
-});
-
-// Close modal on background click
-document.getElementById('imageModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeModal();
-    }
-});
 </script>
 </x-app-layout>

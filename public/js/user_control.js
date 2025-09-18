@@ -230,12 +230,6 @@ document.getElementById('banUserForm').addEventListener('submit', async function
     const formData = new FormData(this);
     const data = Object.fromEntries(formData);
     
-    // Enhanced debug logging
-    console.log('=== BAN REQUEST DEBUG ===');
-    console.log('Form data:', data);
-    console.log('User ID:', data.user_id);
-    console.log('CSRF Token:', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-    
     // Validate user_id exists
     if (!data.user_id) {
         showNotification('Error: User ID tidak ditemukan', 'error');
@@ -250,8 +244,6 @@ document.getElementById('banUserForm').addEventListener('submit', async function
             return;
         }
         
-        console.log('Sending ban request to:', '/admin/users/ban');
-        
         const response = await fetch('/admin/users/ban', {
             method: 'POST',
             headers: {
@@ -259,44 +251,19 @@ document.getElementById('banUserForm').addEventListener('submit', async function
                 'X-CSRF-TOKEN': csrfToken,
                 'Accept': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                user_id: data.user_id,
+                reason: data.ban_reason || null
+            })
         });
         
-        console.log('Response status:', response.status);
-        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-        
-        const responseText = await response.text();
-        console.log('Raw response:', responseText);
-        
-        let result;
-        try {
-            result = JSON.parse(responseText);
-        } catch (parseError) {
-            console.error('JSON parse error:', parseError);
-            showNotification('Error: Invalid response from server - ' + responseText.substring(0, 100), 'error');
-            return;
-        }
-        
-        console.log('Parsed response:', result);
+        const result = await response.json();
         
         if (response.ok && result.success) {
             showNotification(result.message, 'success');
-            console.log('Ban successful:', result);
-            
-            if (result.user) {
-                console.log('Updated user data:', result.user);
-            }
-            
             closeModal('banUserModal');
-            
-            // Reload page to show updated status
-            setTimeout(() => {
-                console.log('Reloading page...');
-                location.reload();
-            }, 1000);
+            location.reload();
         } else {
-            console.error('Ban failed:', result);
-            
             if (result.errors) {
                 const errorMessages = Object.values(result.errors).flat().join(', ');
                 showNotification('Validation Error: ' + errorMessages, 'error');
@@ -305,11 +272,8 @@ document.getElementById('banUserForm').addEventListener('submit', async function
             }
         }
     } catch (error) {
-        console.error('Network/Request error:', error);
         showNotification('Network Error: ' + error.message, 'error');
     }
-    
-    console.log('=== END BAN REQUEST DEBUG ===');
 });
 
 // Checkbox functionality

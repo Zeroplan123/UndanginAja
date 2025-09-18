@@ -123,12 +123,13 @@ class Broadcast extends Model
     }
 
     /**
-     * Get broadcasts for specific user (considering targeting).
+     * Get broadcasts for specific user (considering targeting and user registration date).
      */
     public static function forUser(User $user)
     {
         return static::active()
             ->sent()
+            ->where('sent_at', '>=', $user->created_at) // Only broadcasts sent after user registration
             ->where(function ($query) use ($user) {
                 $query->where('target_type', 'all')
                       ->orWhere(function ($q) use ($user) {

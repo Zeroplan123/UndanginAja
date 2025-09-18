@@ -59,7 +59,7 @@ class UserGallery extends Model
      */
     public function getFileUrlAttribute(): string
     {
-        return Storage::url($this->file_path);
+        return Storage::disk('public')->url($this->file_path);
     }
 
     /**
@@ -125,8 +125,8 @@ class UserGallery extends Model
 
         $thumbnailPath = str_replace('/galleries/', '/galleries/thumbnails/', $this->file_path);
         
-        if (Storage::exists($thumbnailPath)) {
-            return Storage::url($thumbnailPath);
+        if (Storage::disk('public')->exists($thumbnailPath)) {
+            return Storage::disk('public')->url($thumbnailPath);
         }
 
         return $this->file_url;

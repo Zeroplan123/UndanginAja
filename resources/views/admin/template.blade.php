@@ -1,5 +1,6 @@
 <x-app-layout>
-    @vite('public/css/template.css')
+<link rel="stylesheet" href="{{ asset('css/template.css') }}">
+
     <x-slot name="title"> Template </x-slot>
     <div class="container mx-auto p-6">
         <div class="block lg:flex justify-between items-center mb-6">

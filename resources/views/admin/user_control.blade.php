@@ -1,6 +1,5 @@
 <x-app-layout>
     <x-slot name="title">Kontrol Pengguna</x-slot>
-<script src="{{ asset('js/simple_ban.js') }}"></script>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="min-h-screen bg-gray-50 py-8">
@@ -193,30 +192,25 @@
                                 {{ $user->last_login_at ? $user->last_login_at->format('M d, Y') : 'Never' }}
                             </td>
                             <td class="px-6 py-4 text-sm font-medium space-x-2">
-                                <button onclick="viewUser({{ $user->id }})" 
-                                        class="text-blue-600 hover:text-blue-900 transition-colors">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button onclick="editUser({{ $user->id }})" 
-                                        class="text-green-600 hover:text-green-900 transition-colors">
-                                    <i class="fas fa-edit"></i>
-                                </button>
                                 @if($user->is_banned)
                                     <button onclick="unbanUser({{ $user->id }})" 
-                                            class="text-green-600 hover:text-green-900 transition-colors">
+                                            class="text-green-600 hover:text-green-900 transition-colors"
+                                            title="Unban User">
                                         <i class="fas fa-user-check"></i>
                                     </button>
                                 @else
                                     @if($user->role !== 'admin')
                                         <button onclick="banUser({{ $user->id }})" 
-                                                class="text-red-600 hover:text-red-900 transition-colors">
+                                                class="text-red-600 hover:text-red-900 transition-colors"
+                                                title="Ban User">
                                             <i class="fas fa-ban"></i>
                                         </button>
                                     @endif
                                 @endif
                                 @if($user->role !== 'admin')
                                     <button onclick="deleteUser({{ $user->id }})" 
-                                            class="text-red-600 hover:text-red-900 transition-colors">
+                                            class="text-red-600 hover:text-red-900 transition-colors ml-2"
+                                            title="Delete User">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 @endif
@@ -330,6 +324,10 @@
             </div>
             <form id="banUserForm">
                 <input type="hidden" id="banUserId" name="user_id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Alasan Ban (Opsional)</label>
+                    <textarea name="ban_reason" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" rows="3" placeholder="Masukkan alasan ban..."></textarea>
+                </div>
                 <div class="flex justify-end space-x-3">
                     <button type="button" onclick="closeModal('banUserModal')" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors">
                         Batal
@@ -342,4 +340,73 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('js/user_control.js') }}?v={{ time() }}" defer></script>
+
+<script>
+// Fallback functions in case external JS fails to load
+window.addEventListener('DOMContentLoaded', function() {
+    // Check if functions are loaded, if not define them
+    if (typeof deleteUser === 'undefined') {
+        window.deleteUser = async function(userId) {
+            if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
+            
+            try {
+                const response = await fetch(`/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('User berhasil dihapus');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Error deleting user: ' + error.message);
+            }
+        };
+    }
+    
+    if (typeof banUser === 'undefined') {
+        window.banUser = function(userId) {
+            document.getElementById('banUserId').value = userId;
+            document.getElementById('banUserModal').classList.remove('hidden');
+        };
+    }
+    
+    if (typeof unbanUser === 'undefined') {
+        window.unbanUser = async function(userId) {
+            if (!confirm('Are you sure you want to unban this user?')) return;
+            
+            try {
+                const response = await fetch('/admin/users/unban', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ user_id: userId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('User berhasil di-unban');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Error unbanning user: ' + error.message);
+            }
+        };
+    }
+});
+</script>
 </x-app-layout>

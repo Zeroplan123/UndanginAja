@@ -1,29 +1,19 @@
 <x-app-layout>
-<x-slot name="title">Upload Memory</x-slot>
-<link rel="stylesheet" href="{{ asset('css/romantic-gallery.css') }}">
-<div class="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-white">
-    <!-- Romantic Header -->
-    <div class="relative overflow-hidden bg-gradient-to-r from-rose-100 via-pink-50 to-rose-100 py-12">
-        <div class="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
-        <div class="absolute top-0 left-0 w-full h-full">
-            <div class="absolute top-4 left-4 w-16 h-16 bg-rose-200/30 rounded-full animate-pulse"></div>
-            <div class="absolute top-8 right-8 w-8 h-8 bg-pink-200/40 rounded-full animate-bounce"></div>
-            <div class="absolute bottom-4 left-1/3 w-12 h-12 bg-rose-100/50 rounded-full"></div>
-        </div>
-        <div class="relative container mx-auto px-4">
-            <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold text-rose-800 mb-2 font-serif">
-                    <i class="fas fa-camera text-rose-400 mr-3"></i>
-                    Capture New Memories
-                    <i class="fas fa-heart text-rose-400 ml-3"></i>
-                </h1>
-                <p class="text-rose-600 text-lg italic font-serif">Upload your precious moments to the memory vault</p>
-            </div>
-            <div class="flex justify-center">
-                <a href="{{ route('user.gallery.index') }}" class="romantic-back-btn group">
-                    <i class="fas fa-arrow-left mr-2 group-hover:animate-pulse"></i>
+<x-slot name="title">Upload Photos</x-slot>
+
+<div class="min-h-screen bg-gray-50">
+    <!-- Professional Header -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Upload Photos</h1>
+                    <p class="text-gray-600 mt-1">Add new photos to your gallery</p>
+                </div>
+                <a href="{{ route('user.gallery.index') }}" 
+                   class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i>
                     Back to Gallery
-                    <i class="fas fa-images ml-2"></i>
                 </a>
             </div>
         </div>
@@ -32,72 +22,70 @@
     <div class="container mx-auto px-4 py-8">
 
         @if($errors->any())
-            <div class="romantic-error-alert mb-6">
-                <i class="fas fa-heart-broken text-red-500 mr-2"></i>
-                <div>
-                    @foreach($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
+            <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-500 mr-2 mt-0.5"></i>
+                    <div>
+                        @foreach($errors->all() as $error)
+                            <p class="text-sm">{{ $error }}</p>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         @endif
 
-        <!-- Romantic Upload Form -->
-        <div class="romantic-upload-container">
+        <!-- Professional Upload Form -->
+        <div class="bg-white rounded-lg shadow-sm p-6">
             <form method="POST" action="{{ route('user.gallery.store') }}" enctype="multipart/form-data" id="uploadForm">
                 @csrf
                 
-                <!-- Romantic File Upload Area -->
+                <!-- File Upload Area -->
                 <div class="mb-8">
-                    <label class="romantic-upload-label">
-                        <i class="fas fa-heart text-rose-500 mr-2"></i>
-                        Select Your Precious Memories
-                        <i class="fas fa-sparkles text-rose-400 ml-2"></i>
+                    <label class="block text-lg font-semibold text-gray-900 mb-4">
+                        Select Photos to Upload
                     </label>
-                    <div id="dropZone" class="romantic-drop-zone">
-                        <div id="dropZoneContent" class="romantic-drop-content">
-                            <div class="romantic-upload-icon">
-                                <i class="fas fa-cloud-upload-alt text-6xl text-rose-300 mb-4 animate-bounce"></i>
-                                <i class="fas fa-heart text-2xl text-rose-400 absolute transform translate-x-4 -translate-y-2 animate-pulse"></i>
+                    <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 hover:bg-blue-50 transition-colors duration-200">
+                        <div id="dropZoneContent">
+                            <div class="mb-4">
+                                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
                             </div>
-                            <h3 class="text-2xl font-bold text-rose-700 mb-2 font-serif">Share Your Love Story</h3>
-                            <p class="text-lg text-rose-600 mb-2 italic font-serif">Drag & drop your beautiful moments here</p>
-                            <p class="text-sm text-rose-500 mb-6 font-serif">or click to browse your memories</p>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-2">Upload Your Photos</h3>
+                            <p class="text-gray-600 mb-2">Drag and drop your photos here</p>
+                            <p class="text-sm text-gray-500 mb-6">or click to browse files</p>
                             <input type="file" id="fileInput" name="photos[]" multiple accept="image/*" class="hidden">
                             <button type="button" onclick="document.getElementById('fileInput').click()" 
-                                    class="romantic-choose-btn">
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center">
                                 <i class="fas fa-images mr-2"></i>
-                                Choose Memories
-                                <i class="fas fa-heart ml-2"></i>
+                                Choose Files
                             </button>
                         </div>
                     </div>
-                    <div class="romantic-upload-info">
-                        <i class="fas fa-info-circle text-rose-400 mr-2"></i>
-                        <span class="font-serif italic">Supported: JPEG, PNG, JPG, GIF, WebP • Max: 10MB per memory • Up to 50 memories at once</span>
+                    <div class="mt-3 text-sm text-gray-600 flex items-center">
+                        <i class="fas fa-info-circle text-gray-400 mr-2"></i>
+                        <span>Supported formats: JPEG, PNG, JPG, GIF, WebP • Max size: 10MB per file • Up to 10 files at once</span>
                     </div>
                 </div>
 
-                <!-- Romantic Preview Area -->
+                <!-- Preview Area -->
                 <div id="previewArea" class="mb-8 hidden">
-                    <h3 class="romantic-preview-title">
-                        <i class="fas fa-images text-rose-500 mr-2"></i>
-                        Your Selected Memories
-                        <i class="fas fa-heart text-rose-400 ml-2"></i>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-images text-blue-600 mr-2"></i>
+                        Selected Photos
                     </h3>
-                    <div id="previewContainer" class="romantic-preview-grid">
+                    <div id="previewContainer" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         <!-- Preview items will be inserted here -->
                     </div>
                 </div>
 
-                <!-- Romantic Submit Buttons -->
-                <div class="romantic-submit-container">
-                    <a href="{{ route('user.gallery.index') }}" class="romantic-cancel-btn">
+                <!-- Submit Buttons -->
+                <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                    <a href="{{ route('user.gallery.index') }}" 
+                       class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center">
                         <i class="fas fa-times mr-2"></i>Cancel
                     </a>
-                    <button type="submit" id="uploadButton" disabled class="romantic-upload-submit-btn">
-                        <i class="fas fa-heart mr-2"></i>Save Memories
-                        <i class="fas fa-sparkles ml-2"></i>
+                    <button type="submit" id="uploadButton" disabled 
+                            class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center">
+                        <i class="fas fa-upload mr-2"></i>Upload Photos
                     </button>
                 </div>
             </form>
@@ -117,17 +105,17 @@ function dragOverHandler(ev) {
 
 function dragEnterHandler(ev) {
     ev.preventDefault();
-    document.getElementById('dropZone').classList.add('border-blue-400', 'bg-blue-50');
+    document.getElementById('dropZone').classList.add('border-blue-500', 'bg-blue-50');
 }
 
 function dragLeaveHandler(ev) {
     ev.preventDefault();
-    document.getElementById('dropZone').classList.remove('border-blue-400', 'bg-blue-50');
+    document.getElementById('dropZone').classList.remove('border-blue-500', 'bg-blue-50');
 }
 
 function dropHandler(ev) {
     ev.preventDefault();
-    document.getElementById('dropZone').classList.remove('border-blue-400', 'bg-blue-50');
+    document.getElementById('dropZone').classList.remove('border-blue-500', 'bg-blue-50');
     
     const files = Array.from(ev.dataTransfer.files);
     handleFiles(files);
@@ -185,19 +173,19 @@ function updatePreview() {
         const reader = new FileReader();
         reader.onload = function(e) {
             const previewItem = document.createElement('div');
-            previewItem.className = 'bg-white border rounded-lg p-4 relative';
+            previewItem.className = 'bg-white border border-gray-200 rounded-lg p-3 relative shadow-sm';
             previewItem.innerHTML = `
                 <button type="button" onclick="removeFile(${index})" 
-                        class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
+                        class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors duration-200 z-10">
                     ×
                 </button>
-                <img src="${e.target.result}" alt="${file.name}" class="w-full h-32 object-cover rounded mb-2">
-                <p class="text-sm font-medium text-gray-800 truncate">${file.name}</p>
-                <p class="text-xs text-gray-500">${formatFileSize(file.size)}</p>
-                <div class="mt-2">
+                <img src="${e.target.result}" alt="${file.name}" class="w-full h-24 object-cover rounded mb-2">
+                <p class="text-xs font-medium text-gray-800 truncate mb-1">${file.name}</p>
+                <p class="text-xs text-gray-500 mb-2">${formatFileSize(file.size)}</p>
+                <div>
                     <label class="block text-xs font-medium text-gray-700 mb-1">Caption (optional)</label>
-                    <input type="text" name="captions[${index}]" placeholder="Add a caption..." 
-                           class="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    <input type="text" name="captions[${index}]" placeholder="Add caption..." 
+                           class="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                 </div>
             `;
             previewContainer.appendChild(previewItem);
@@ -214,14 +202,14 @@ function removeFile(index) {
 }
 
 function updateFileInput() {
-    const photoInput = document.getElementById('photoInput');
+    const fileInput = document.getElementById('fileInput');
     const dt = new DataTransfer();
     
     selectedFiles.forEach(file => {
         dt.items.add(file);
     });
     
-    photoInput.files = dt.files;
+    fileInput.files = dt.files;
 }
 
 function updateUploadButton() {
@@ -254,7 +242,15 @@ document.querySelector('form').addEventListener('submit', function(e) {
     uploadButton.disabled = true;
 });
 
-// Prevent default drag behaviors
+// Add event listeners and prevent default drag behaviors
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('dropZone').addEventListener('dragover', dragOverHandler);
+    document.getElementById('dropZone').addEventListener('dragenter', dragEnterHandler);
+    document.getElementById('dropZone').addEventListener('dragleave', dragLeaveHandler);
+    document.getElementById('dropZone').addEventListener('drop', dropHandler);
+    document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+});
+
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     document.addEventListener(eventName, preventDefaults, false);
 });

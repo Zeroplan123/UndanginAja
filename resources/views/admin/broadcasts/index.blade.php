@@ -111,13 +111,15 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 @if($broadcast->scheduled_at)
-                                    {{ $broadcast->scheduled_at->format('M d, Y H:i') }}
+                                    {{ $broadcast->scheduled_at->setTimezone('Asia/Jakarta')->format('M d, Y H:i') }}
+                                    <span class="text-xs text-gray-500 block">WIB</span>
                                 @else
                                     -
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ $broadcast->created_at->format('M d, Y') }}
+                                {{ $broadcast->created_at->setTimezone('Asia/Jakarta')->format('M d, Y H:i') }}
+                                <span class="text-xs text-gray-500 block">WIB</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex space-x-2">

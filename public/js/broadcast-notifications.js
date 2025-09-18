@@ -92,41 +92,41 @@ class BroadcastNotifications {
 
     createNotificationElement(broadcast) {
         const notification = document.createElement('div');
-        notification.className = `broadcast-notification romantic-card transition-all duration-500 cursor-pointer transform hover:scale-105 ${this.getBorderColor(broadcast.type)}`;
+        notification.className = `broadcast-notification professional-card transition-all duration-300 cursor-pointer ${this.getBorderColor(broadcast.type)}`;
         notification.dataset.broadcastId = broadcast.id;
 
         const priorityIcon = this.getPriorityIcon(broadcast.priority);
         const typeIcon = this.getTypeIcon(broadcast.type);
 
         notification.innerHTML = `
-            <div class="romantic-gradient p-5 rounded-xl shadow-xl backdrop-blur-sm">
+            <div class="professional-gradient p-4 rounded-lg shadow-sm border">
                 <div class="flex items-start">
-                    <div class="flex-shrink-0 mr-4">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center romantic-icon-bg shadow-lg">
+                    <div class="flex-shrink-0 mr-3">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center professional-icon-bg">
                             ${typeIcon}
                         </div>
                     </div>
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center justify-between mb-2">
-                            <h4 class="text-sm font-bold text-rose-800 truncate romantic-title">${this.escapeHtml(broadcast.title)}</h4>
+                            <h4 class="text-sm font-semibold text-gray-900 truncate">${this.escapeHtml(broadcast.title)}</h4>
                             <div class="flex items-center space-x-2 ml-2">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold romantic-priority-${broadcast.priority} shadow-sm">
+                                <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium professional-priority-${broadcast.priority}">
                                     ${priorityIcon} ${broadcast.priority_text}
                                 </span>
                                 <button onclick="broadcastNotifications.hideNotification(this.closest('.broadcast-notification'), ${broadcast.id})" 
-                                        class="romantic-close-btn p-1 rounded-full transition-all duration-200">
+                                        class="professional-close-btn p-1 rounded transition-colors duration-200">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                     </svg>
                                 </button>
                             </div>
                         </div>
-                        <p class="text-sm text-rose-700 mb-3 line-clamp-3 romantic-message leading-relaxed">${this.escapeHtml(broadcast.message)}</p>
+                        <p class="text-sm text-gray-700 mb-3 line-clamp-3 leading-relaxed">${this.escapeHtml(broadcast.message)}</p>
                         <div class="flex items-center justify-between text-xs">
-                            <span class="text-rose-500 font-medium romantic-date">${this.formatDate(broadcast.sent_at)}</span>
+                            <span class="text-gray-500">${this.formatDate(broadcast.sent_at)}</span>
                             <button onclick="broadcastNotifications.markAsRead(${broadcast.id})" 
-                                    class="romantic-read-btn px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200">
-                                <i class="fas fa-heart mr-1"></i>Mark as read
+                                    class="professional-read-btn px-3 py-1 rounded text-xs font-medium transition-colors duration-200">
+                                <i class="fas fa-check mr-1"></i>Mark as read
                             </button>
                         </div>
                     </div>
@@ -208,8 +208,8 @@ class BroadcastNotifications {
 
     getPriorityIcon(priority) {
         const icons = {
-            3: '<i class="fas fa-heart text-xs"></i>',
-            2: '<i class="fas fa-star text-xs"></i>',
+            3: '<i class="fas fa-exclamation text-xs"></i>',
+            2: '<i class="fas fa-info text-xs"></i>',
             1: '<i class="fas fa-circle text-xs"></i>'
         };
         return icons[priority] || '';
@@ -217,12 +217,12 @@ class BroadcastNotifications {
 
     getTypeIcon(type) {
         const icons = {
-            'promo': '<i class="fas fa-gift text-sm text-rose-600"></i>',
-            'update': '<i class="fas fa-sparkles text-sm text-rose-600"></i>',
-            'maintenance': '<i class="fas fa-heart-broken text-sm text-rose-600"></i>',
-            'announcement': '<i class="fas fa-heart text-sm text-rose-600"></i>'
+            'promo': '<i class="fas fa-gift text-sm text-blue-600"></i>',
+            'update': '<i class="fas fa-info-circle text-sm text-blue-600"></i>',
+            'maintenance': '<i class="fas fa-tools text-sm text-orange-600"></i>',
+            'announcement': '<i class="fas fa-bullhorn text-sm text-gray-600"></i>'
         };
-        return icons[type] || '<i class="fas fa-heart text-sm text-rose-600"></i>';
+        return icons[type] || '<i class="fas fa-bullhorn text-sm text-gray-600"></i>';
     }
 
     getHideDelay(priority) {
@@ -297,15 +297,29 @@ class BroadcastNotifications {
     }
 
     formatDate(dateString) {
+        // Parse the date string and convert to Jakarta timezone
         const date = new Date(dateString);
         const now = new Date();
-        const diffInMinutes = Math.floor((now - date) / (1000 * 60));
-
-        if (diffInMinutes < 1) return 'Just now';
-        if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
-        if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
         
-        return date.toLocaleDateString();
+        // Convert to Jakarta timezone for display
+        const jakartaDate = new Date(date.toLocaleString("en-US", {timeZone: "Asia/Jakarta"}));
+        const jakartaNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Jakarta"}));
+        
+        const diffInMinutes = Math.floor((jakartaNow - jakartaDate) / (1000 * 60));
+
+        if (diffInMinutes < 1) return 'Baru saja';
+        if (diffInMinutes < 60) return `${diffInMinutes} menit lalu`;
+        if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)} jam lalu`;
+        
+        // Format with Jakarta timezone
+        return jakartaDate.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'Asia/Jakarta'
+        }) + ' WIB';
     }
 
     // Public method to manually check for broadcasts
@@ -331,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Add CSS for romantic notification styling
+// Add CSS for professional notification styling
 const style = document.createElement('style');
 style.textContent = `
     .line-clamp-3 {
@@ -342,124 +356,91 @@ style.textContent = `
     }
     
     .broadcast-notification {
-        max-height: 250px;
+        max-height: 200px;
         overflow: hidden;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: slideInFromRight 0.6s ease-out;
+        transition: all 0.3s ease;
+        animation: slideInFromRight 0.4s ease-out;
     }
     
     .broadcast-notification.expanded {
         max-height: none;
     }
     
-    .romantic-card {
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 182, 193, 0.3);
+    .professional-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
     }
     
-    .romantic-gradient {
+    .professional-gradient {
         background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.95) 0%, 
-            rgba(255, 182, 193, 0.1) 50%, 
-            rgba(255, 192, 203, 0.15) 100%);
-        border: 1px solid rgba(255, 182, 193, 0.2);
-        position: relative;
-        overflow: hidden;
+            rgba(255, 255, 255, 0.98) 0%, 
+            rgba(248, 250, 252, 0.95) 100%);
+        border: 1px solid rgba(226, 232, 240, 0.8);
     }
     
-    .romantic-gradient::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at top right, rgba(255, 182, 193, 0.1) 0%, transparent 50%);
-        pointer-events: none;
+    .professional-icon-bg {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border: 1px solid rgba(203, 213, 225, 0.5);
     }
     
-    .romantic-icon-bg {
-        background: linear-gradient(135deg, #fff 0%, #ffb6c1 100%);
-        border: 2px solid rgba(255, 182, 193, 0.3);
+    .professional-priority-1 {
+        background: #f1f5f9;
+        color: #64748b;
+        border: 1px solid #cbd5e1;
     }
     
-    .romantic-title {
-        text-shadow: 0 1px 2px rgba(255, 182, 193, 0.3);
-        font-family: 'Georgia', serif;
+    .professional-priority-2 {
+        background: #fef3c7;
+        color: #d97706;
+        border: 1px solid #fbbf24;
     }
     
-    .romantic-message {
-        font-family: 'Georgia', serif;
-        line-height: 1.6;
-    }
-    
-    .romantic-date {
-        font-style: italic;
-        font-family: 'Georgia', serif;
-    }
-    
-    .romantic-priority-1 {
-        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-        color: #6b7280;
-        border: 1px solid #e5e7eb;
-    }
-    
-    .romantic-priority-2 {
-        background: linear-gradient(135deg, #fff5f5 0%, #fecaca 100%);
+    .professional-priority-3 {
+        background: #fee2e2;
         color: #dc2626;
-        border: 1px solid #fca5a5;
+        border: 1px solid #f87171;
     }
     
-    .romantic-priority-3 {
-        background: linear-gradient(135deg, #fff1f2 0%, #fda4af 100%);
-        color: #be185d;
-        border: 1px solid #fb7185;
-        animation: pulse 2s infinite;
+    .professional-close-btn {
+        background: rgba(248, 250, 252, 0.8);
+        color: #64748b;
+        border: 1px solid rgba(203, 213, 225, 0.3);
     }
     
-    .romantic-close-btn {
-        background: rgba(255, 255, 255, 0.8);
-        color: #9ca3af;
-        border: 1px solid rgba(255, 182, 193, 0.2);
+    .professional-close-btn:hover {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
     }
     
-    .romantic-close-btn:hover {
-        background: rgba(255, 182, 193, 0.2);
-        color: #ef4444;
-        transform: scale(1.1);
+    .professional-read-btn {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
     }
     
-    .romantic-read-btn {
-        background: linear-gradient(135deg, #fff 0%, #ffb6c1 100%);
-        color: #be185d;
-        border: 1px solid rgba(255, 182, 193, 0.3);
-    }
-    
-    .romantic-read-btn:hover {
-        background: linear-gradient(135deg, #ffb6c1 0%, #ff91a4 100%);
-        color: #fff;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4);
+    .professional-read-btn:hover {
+        background: #e2e8f0;
+        color: #334155;
     }
     
     .romantic-border-promo {
-        border-left: 4px solid #10b981;
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+        border-left: 3px solid #10b981;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
     }
     
     .romantic-border-update {
-        border-left: 4px solid #3b82f6;
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        border-left: 3px solid #3b82f6;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
     }
     
     .romantic-border-maintenance {
-        border-left: 4px solid #ef4444;
-        box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+        border-left: 3px solid #ef4444;
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
     }
     
     .romantic-border-announcement {
-        border-left: 4px solid #f59e0b;
-        box-shadow: 0 0 20px rgba(245, 158, 11, 0.1);
+        border-left: 3px solid #f59e0b;
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
     }
     
     @keyframes slideInFromRight {
@@ -473,18 +454,9 @@ style.textContent = `
         }
     }
     
-    @keyframes pulse {
-        0%, 100% {
-            box-shadow: 0 0 0 0 rgba(190, 24, 93, 0.4);
-        }
-        50% {
-            box-shadow: 0 0 0 10px rgba(190, 24, 93, 0);
-        }
-    }
-    
     .broadcast-notification:hover {
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(255, 182, 193, 0.2), 0 15px 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 `;
 document.head.appendChild(style);

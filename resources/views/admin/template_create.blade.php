@@ -14,12 +14,16 @@
 
                     <!-- Nama Template -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Nama Template</label>
+                        <label class="block text-sm font-medium text-gray-700">
+                            Nama Template <span class="text-red-500">*</span>
+                        </label>
                         <input type="text" 
                                name="name" 
                                value="{{ old('name') }}"
                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                               placeholder="Masukkan nama template yang unik..."
                                required>
+                        <p class="text-xs text-gray-500 mt-1">Nama template harus unik dan tidak boleh sama dengan template lain</p>
                         @error('name')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror

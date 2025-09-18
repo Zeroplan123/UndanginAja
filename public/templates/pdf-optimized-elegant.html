@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation - [bride_name] & [groom_name]</title>
+    <style>
+        /* PDF-Optimized Elegant Wedding Invitation */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DejaVu Sans', 'Times New Roman', serif;
+            background: #ffffff;
+            color: #2c3e50;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .invitation-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 3px solid #8b4513;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            min-height: 800px;
+        }
+
+        /* Decorative border */
+        .invitation-container::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 1px solid #d4af37;
+            pointer-events: none;
+        }
+
+        /* Header ornament */
+        .header-ornament {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .invitation-title {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            color: #8b4513;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .couple-section {
+            margin: 40px 0;
+        }
+
+        .couple-intro {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .couple-names {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #8b4513;
+            line-height: 1.2;
+        }
+
+        .couple-names .separator {
+            font-size: 36px;
+            margin: 0 15px;
+            color: #d4af37;
+        }
+
+        .parents-section {
+            margin: 30px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .parent-names {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .divider {
+            width: 100px;
+            height: 3px;
+            background: #d4af37;
+            margin: 30px auto;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            width: 8px;
+            height: 8px;
+            background: #d4af37;
+            border-radius: 50%;
+        }
+
+        .divider::before {
+            left: -15px;
+        }
+
+        .divider::after {
+            right: -15px;
+        }
+
+        .wedding-details {
+            margin: 40px 0;
+            background: #f8f6f0;
+            padding: 30px 25px;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+        }
+
+        .wedding-date {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 10px;
+        }
+
+        .wedding-time {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .venue-section {
+            margin: 25px 0;
+        }
+
+        .venue-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #8b4513;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .venue-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .venue-address {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .notes-section {
+            background: #f0f8ff;
+            margin: 30px -30px -40px;
+            padding: 25px 30px;
+            border-top: 3px solid #d4af37;
+        }
+
+        .notes-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .notes-content {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .closing-section {
+            margin: 30px 0 20px;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .signature {
+            margin-top: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #8b4513;
+        }
+
+        /* Corner decorations */
+        .corner-decoration {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border: 3px solid #d4af37;
+        }
+
+        .corner-tl {
+            top: 25px;
+            left: 25px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-tr {
+            top: 25px;
+            right: 25px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-bl {
+            bottom: 25px;
+            left: 25px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-br {
+            bottom: 25px;
+            right: 25px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* PDF-specific styles */
+        @media print {
+            body {
+                background: white;
+                font-size: 12px;
+            }
+
+            .invitation-container {
+                border: 2px solid #333;
+                max-width: none;
+                width: 100%;
+                margin: 0;
+                min-height: auto;
+            }
+
+            .invitation-container::before {
+                border-color: #666;
+            }
+
+            .corner-decoration {
+                border-color: #333;
+            }
+
+            .wedding-details {
+                background: #f5f5f5;
+                border-color: #666;
+            }
+
+            .notes-section {
+                background: #f9f9f9;
+                border-top-color: #666;
+            }
+        }
+
+        @page {
+            margin: 15mm;
+            size: A4 portrait;
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <!-- Corner decorations -->
+        <div class="corner-decoration corner-tl"></div>
+        <div class="corner-decoration corner-tr"></div>
+        <div class="corner-decoration corner-bl"></div>
+        <div class="corner-decoration corner-br"></div>
+
+        <!-- Header -->
+        <div class="header-ornament">❀</div>
+        <div class="invitation-title">Wedding Invitation</div>
+
+        <!-- Couple section -->
+        <div class="couple-section">
+            <div class="couple-intro">
+                Dengan memohon rahmat dan ridho Allah SWT,<br>
+                kami bermaksud mengundang Bapak/Ibu/Saudara/i<br>
+                untuk menghadiri acara pernikahan kami:
+            </div>
+
+            <div class="couple-names">
+                [bride_name]<span class="separator">&</span>[groom_name]
+            </div>
+
+            <div class="parents-section">
+                <div class="parent-names">
+                    Putri dari Bapak [bride_father] & Ibu [bride_mother]
+                </div>
+                <div class="parent-names">
+                    Putra dari Bapak [groom_father] & Ibu [groom_mother]
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Wedding details -->
+        <div class="wedding-details">
+            <div class="wedding-date">[wedding_date]</div>
+            <div class="wedding-time">[wedding_time]</div>
+
+            <div class="venue-section">
+                <div class="venue-label">Bertempat di</div>
+                <div class="venue-name">[venue]</div>
+                <div class="venue-address">[location]</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Closing -->
+        <div class="closing-section">
+            Merupakan suatu kehormatan dan kebahagiaan bagi kami<br>
+            apabila Bapak/Ibu/Saudara/i berkenan hadir<br>
+            untuk memberikan doa restu kepada kedua mempelai.
+        </div>
+
+        <div class="signature">
+            [groom_name] & [bride_name]
+        </div>
+
+        <!-- Notes section -->
+        <div class="notes-section">
+            <div class="notes-label">Catatan Khusus</div>
+            <div class="notes-content">[additional_notes]</div>
+        </div>
+    </div>
+</body>
+</html>

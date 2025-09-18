@@ -1,0 +1,477 @@
+/* Instagram-Style Gallery CSS */
+
+/* Gallery Container */
+.gallery-container {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Perfect Instagram Grid Layout */
+.instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+    padding: 0;
+}
+
+@media (min-width: 640px) {
+    .instagram-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+    }
+}
+
+@media (max-width: 639px) {
+    .instagram-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+    }
+}
+
+@media (max-width: 479px) {
+    .instagram-grid {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+}
+
+/* Gallery Grid Enhancements */
+.gallery-item {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    cursor: pointer;
+    background: #f8f9fa;
+    border: none;
+    border-radius: 0;
+    transition: all 0.2s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+    z-index: 10;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Photo Container Styling */
+.photo-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #f8f9fa;
+    overflow: hidden;
+}
+
+.photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+}
+
+/* Enhanced Hover Effects */
+.gallery-item:hover .photo-container img {
+    transform: scale(1.05);
+}
+
+.photo-overlay {
+    backdrop-filter: blur(2px);
+}
+
+.overlay-content {
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-item:hover .overlay-content {
+    transform: translateY(0);
+}
+
+/* Enhanced Lightbox Modal - Google Drive Style */
+#lightboxModal {
+    backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.98);
+    z-index: 9999;
+}
+
+#lightboxModal .bg-black {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+/* Google Drive Style Image Container */
+.lightbox-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px 120px;
+}
+
+/* Image Loading Animation */
+#lightboxImage {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Zoom functionality */
+.lightbox-zoomed {
+    cursor: zoom-out;
+    transform: scale(1.5);
+    transition: transform 0.3s ease;
+}
+
+.lightbox-zoom-out {
+    cursor: zoom-in;
+}
+
+/* Google Drive Style Navigation Buttons */
+#prevBtn, #nextBtn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    z-index: 10001;
+}
+
+#prevBtn {
+    left: 20px;
+}
+
+#nextBtn {
+    right: 20px;
+}
+
+#prevBtn:hover, #nextBtn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+#prevBtn i, #nextBtn i {
+    color: #333;
+    font-size: 18px;
+}
+
+/* Close Button Enhancement */
+.lightbox-close-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    z-index: 10001;
+}
+
+.lightbox-close-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+}
+
+/* Loading Spinner */
+#lightboxLoader {
+    backdrop-filter: blur(5px);
+}
+
+/* Photo Info Panel */
+.photo-info-panel {
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .gallery-item {
+        border-radius: 4px;
+    }
+    
+    .gallery-item:hover {
+        transform: none;
+    }
+    
+    .photo-container img {
+        transition: none;
+    }
+    
+    .gallery-item:hover .photo-container img {
+        transform: none;
+    }
+    
+    /* Mobile lightbox adjustments */
+    #lightboxModal .absolute.top-6.right-6 {
+        top: 1rem;
+        right: 1rem;
+    }
+    
+    #lightboxModal .absolute.left-6 {
+        left: 1rem;
+    }
+    
+    #lightboxModal .absolute.right-6 {
+        right: 1rem;
+    }
+    
+    #lightboxModal .absolute.bottom-6 {
+        bottom: 1rem;
+    }
+    
+    /* Smaller navigation buttons on mobile */
+    #prevBtn, #nextBtn {
+        padding: 0.75rem;
+    }
+    
+    #prevBtn i, #nextBtn i {
+        font-size: 1rem;
+    }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .gallery-item:hover {
+        transform: scale(1.01);
+    }
+}
+
+/* Desktop Enhancements */
+@media (min-width: 1025px) {
+    .gallery-item {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .gallery-item:hover {
+        transform: scale(1.02) translateY(-2px);
+        z-index: 10;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar for Webkit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Focus States for Accessibility */
+.gallery-checkbox:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+.scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scale-out {
+    animation: scaleOut 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+/* Pulse Animation for Loading */
+.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Grid Gap Adjustments */
+@media (min-width: 640px) {
+    .gallery-container .grid {
+        gap: 0.25rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .gallery-container .grid {
+        gap: 0.5rem;
+    }
+}
+
+/* Improved Selection Checkbox */
+.gallery-checkbox {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.gallery-checkbox:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+/* Quick Action Buttons Enhancement */
+.gallery-item .absolute.top-2.right-2 a {
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* File Size Badge Enhancement */
+.gallery-item .absolute.bottom-2.right-2 {
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Lightbox Image Container */
+.lightbox-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+/* Photo Counter Styling */
+#photoCounter {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.025em;
+}
+
+/* Enhanced Button Hover Effects */
+.hover-lift {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Improved Typography */
+.gallery-item h3 {
+    font-weight: 500;
+    letter-spacing: -0.025em;
+}
+
+.gallery-item p {
+    line-height: 1.4;
+}
+
+/* Loading State */
+.loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Error State */
+.error-state {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+/* Success State */
+.success-state {
+    background: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}

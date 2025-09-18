@@ -25,6 +25,10 @@ class User extends Authenticatable
         'is_banned',
         'banned_at',
         'ban_reason',
+        'ban_expires_at',
+        'status',
+        'last_login_at',
+        'avatar'
     ];
 
     /**
@@ -49,6 +53,8 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_banned' => 'boolean',
             'banned_at' => 'datetime',
+            'ban_expires_at' => 'datetime',
+            'last_login_at' => 'datetime',
         ];
     }
 

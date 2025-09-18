@@ -297,6 +297,8 @@ Route::prefix('admin/templates')->middleware(['auth', 'is_admin'])->group(functi
     // Index - List semua templates
     Route::get('/', [TemplateController::class, 'index'])->name('templates.index');
 
+    // Check name availability (AJAX endpoint)
+    Route::post('/check-name', [TemplateController::class, 'checkName'])->name('templates.check-name');
     
     // Create - Form tambah template
     Route::get('/create', [TemplateController::class, 'create'])->name('templates.create');

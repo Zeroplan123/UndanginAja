@@ -1,6 +1,7 @@
 <x-app-layout>
 <x-slot name="title">Dashboard Admin</x-slot>
-@vite('public/css/AdminDashboard.css')
+<link rel="stylesheet" href="{{ asset('css/AdminDashboard.css') }}">
+
 
 <div class="h-full bg-gray-50">
 

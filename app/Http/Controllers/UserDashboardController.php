@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invitation;
 use App\Models\Template;
+use App\Services\PdfExportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -125,9 +126,9 @@ class UserDashboardController extends Controller
     }
 
     /**
-     * Export invitation as PDF
+     * Export invitation as PDF with enhanced compatibility
      */
-    public function exportPDF($slug)
+    public function exportPDF($slug, PdfExportService $pdfService)
     {
         $invitation = Invitation::where('slug', $slug)
                                ->where('user_id', auth()->id())
@@ -142,6 +143,10 @@ class UserDashboardController extends Controller
             'venue' => $invitation->venue ?? $invitation->location,
             'location' => $invitation->location,
             'additional_notes' => $invitation->additional_notes,
+            'bride_father' => $invitation->bride_father,
+            'bride_mother' => $invitation->bride_mother,
+            'groom_father' => $invitation->groom_father,
+            'groom_mother' => $invitation->groom_mother,
             // Legacy support
             'nama_mempelai_pria' => $invitation->groom_name,
             'nama_mempelai_wanita' => $invitation->bride_name,
@@ -151,22 +156,17 @@ class UserDashboardController extends Controller
             'catatan_tambahan' => $invitation->additional_notes,
         ];
 
-        $html = $invitation->template->getCompiledHtml($templateData);
-        $fileName = 'undangan-' . Str::slug($invitation->groom_name . '-' . $invitation->bride_name) . '.pdf';
-
-        // Generate PDF using DomPDF
-        $pdf = Pdf::loadHTML($html)
-            ->setPaper('a4', 'portrait')
-            ->setOptions([
-                'defaultFont' => 'DejaVu Sans',
-                'isRemoteEnabled' => true,
-                'isHtml5ParserEnabled' => true,
-                'isFontSubsettingEnabled' => true,
-                'defaultMediaType' => 'print',
-                'dpi' => 150,
+        try {
+            return $pdfService->generateForDownload($invitation, $templateData);
+        } catch (\Exception $e) {
+            \Log::error('PDF Export Error: ' . $e->getMessage(), [
+                'invitation_id' => $invitation->id,
+                'slug' => $slug,
+                'trace' => $e->getTraceAsString()
             ]);
-
-        return $pdf->download($fileName);
+            
+            return back()->with('error', 'Gagal mengexport PDF. Silakan coba lagi atau hubungi administrator.');
+        }
     }
 
     /**

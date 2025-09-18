@@ -266,7 +266,8 @@ class BroadcastController extends Controller
                     'message' => $broadcast->message,
                     'type' => $broadcast->type,
                     'priority' => $broadcast->priority,
-                    'sent_at' => $broadcast->sent_at->format('Y-m-d H:i:s'),
+                    'sent_at' => $broadcast->sent_at->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
+                    'sent_at_human' => $broadcast->sent_at->setTimezone('Asia/Jakarta')->diffForHumans(),
                     'type_badge_color' => $broadcast->getTypeBadgeColor(),
                     'priority_badge_color' => $broadcast->getPriorityBadgeColor(),
                     'priority_text' => $broadcast->getPriorityText()

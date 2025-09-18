@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Mail\InvitationMail;
 use App\Models\Invitation;
+use App\Services\PdfExportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -16,12 +17,18 @@ class CommunicationController extends Controller
     /**
      * Send invitation via email with PDF attachment
      */
-    public function sendEmail(Request $request, $slug)
+    public function sendEmail(Request $request, $slug, PdfExportService $pdfService)
     {
+        // Check if email feature is under maintenance
+        if (config('app.email_maintenance', true)) {
+            return back()->with('error', 'Fitur pengiriman email sedang dalam maintenance. Silakan gunakan WhatsApp atau download PDF untuk sementara.');
+        }
+
         $request->validate([
             'emails' => 'required|string',
             'recipient_names' => 'nullable|string',
-            'custom_message' => 'nullable|string|max:500'
+            'custom_message' => 'nullable|string|max:500',
+            'include_pdf' => 'nullable|boolean'
         ]);
 
         $invitation = Invitation::where('slug', $slug)
@@ -35,6 +42,32 @@ class CommunicationController extends Controller
 
         $successCount = 0;
         $errors = [];
+        $pdfPath = null;
+
+        // Generate PDF if requested
+        if ($request->include_pdf) {
+            try {
+                $templateData = [
+                    'bride_name' => $invitation->bride_name,
+                    'groom_name' => $invitation->groom_name,
+                    'wedding_date' => date('d F Y', strtotime($invitation->wedding_date)),
+                    'wedding_time' => $invitation->wedding_time,
+                    'venue' => $invitation->venue ?? $invitation->location,
+                    'location' => $invitation->location,
+                    'additional_notes' => $invitation->additional_notes,
+                    'bride_father' => $invitation->bride_father,
+                    'bride_mother' => $invitation->bride_mother,
+                    'groom_father' => $invitation->groom_father,
+                    'groom_mother' => $invitation->groom_mother,
+                ];
+                
+                $pdfPath = $pdfService->generateForEmail($invitation, $templateData);
+                \Log::info("PDF berhasil dibuat: {$pdfPath}");
+            } catch (\Exception $e) {
+                \Log::error("Gagal membuat PDF: " . $e->getMessage());
+                return back()->with('error', 'Gagal membuat PDF attachment. Silakan coba lagi.');
+            }
+        }
 
         foreach ($emails as $index => $email) {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -48,8 +81,8 @@ class CommunicationController extends Controller
                 // Debug: Log before sending
                 \Log::info("Mencoba mengirim email ke: {$email}");
                 
-                // Send email without PDF attachment - just the full invitation text
-                $mailResult = Mail::to($email)->send(new InvitationMail($invitation, null, $recipientName));
+                // Send email with or without PDF attachment
+                $mailResult = Mail::to($email)->send(new InvitationMail($invitation, $pdfPath, $recipientName));
                 
                 // Debug: Check if mail was actually sent
                 \Log::info("Mail result: " . json_encode($mailResult));
@@ -70,6 +103,11 @@ class CommunicationController extends Controller
                     'exception' => $e->getTraceAsString()
                 ]);
             }
+        }
+
+        // Clean up temporary PDF file
+        if ($pdfPath && file_exists($pdfPath)) {
+            unlink($pdfPath);
         }
 
         if ($successCount > 0) {
@@ -177,93 +215,65 @@ class CommunicationController extends Controller
     /**
      * Generate temporary public PDF for WhatsApp sharing
      */
-    public function generateTempPDF($slug)
+    public function generateTempPDF($slug, PdfExportService $pdfService)
     {
         $invitation = Invitation::where('slug', $slug)
                                ->where('user_id', auth()->id())
                                ->with('template')
                                ->firstOrFail();
 
-        // Generate PDF
-        $pdfPath = $this->generatePDF($invitation);
-        
-        // Create public temporary file
-        $publicFilename = 'temp_invitation_' . $invitation->slug . '_' . time() . '.pdf';
-        $publicPath = public_path('temp/' . $publicFilename);
-        
-        // Create temp directory if it doesn't exist
-        if (!file_exists(dirname($publicPath))) {
-            mkdir(dirname($publicPath), 0755, true);
+        try {
+            $templateData = [
+                'bride_name' => $invitation->bride_name,
+                'groom_name' => $invitation->groom_name,
+                'wedding_date' => date('d F Y', strtotime($invitation->wedding_date)),
+                'wedding_time' => $invitation->wedding_time,
+                'venue' => $invitation->venue ?? $invitation->location,
+                'location' => $invitation->location,
+                'additional_notes' => $invitation->additional_notes,
+                'bride_father' => $invitation->bride_father,
+                'bride_mother' => $invitation->bride_mother,
+                'groom_father' => $invitation->groom_father,
+                'groom_mother' => $invitation->groom_mother,
+            ];
+
+            // Generate PDF using the service
+            $pdf = $pdfService->generateInvitationPdf($invitation, $templateData);
+            
+            // Create public temporary file
+            $publicFilename = 'temp_invitation_' . $invitation->slug . '_' . time() . '.pdf';
+            $publicPath = public_path('temp/' . $publicFilename);
+            
+            // Create temp directory if it doesn't exist
+            if (!file_exists(dirname($publicPath))) {
+                mkdir(dirname($publicPath), 0755, true);
+            }
+
+            // Save PDF to public directory
+            $pdf->save($publicPath);
+            
+            // Schedule cleanup after 24 hours (you might want to implement this with a job)
+            $publicUrl = url('temp/' . $publicFilename);
+
+            return response()->json([
+                'success' => true,
+                'pdf_url' => $publicUrl,
+                'expires_in' => '24 jam'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Temp PDF Generation Error: ' . $e->getMessage(), [
+                'invitation_id' => $invitation->id,
+                'slug' => $slug,
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal membuat PDF. Silakan coba lagi.'
+            ], 500);
         }
-
-        // Copy to public directory
-        copy($pdfPath, $publicPath);
-        
-        // Clean up original temp file
-        if (file_exists($pdfPath)) {
-            unlink($pdfPath);
-        }
-
-        // Schedule cleanup after 24 hours (you might want to implement this with a job)
-        $publicUrl = url('temp/' . $publicFilename);
-
-        return response()->json([
-            'success' => true,
-            'pdf_url' => $publicUrl,
-            'expires_in' => '24 jam'
-        ]);
     }
 
-    /**
-     * Generate PDF for invitation
-     */
-    private function generatePDF($invitation)
-    {
-        $templateData = [
-            'bride_name' => $invitation->bride_name,
-            'groom_name' => $invitation->groom_name,
-            'wedding_date' => date('d F Y', strtotime($invitation->wedding_date)),
-            'wedding_time' => $invitation->wedding_time,
-            'venue' => $invitation->venue ?? $invitation->location,
-            'location' => $invitation->location,
-            'additional_notes' => $invitation->additional_notes,
-            'bride_father' => $invitation->bride_father,
-            'bride_mother' => $invitation->bride_mother,
-            'groom_father' => $invitation->groom_father,
-            'groom_mother' => $invitation->groom_mother,
-        ];
-
-        // Get template content
-        $templatePath = public_path('templates/' . $invitation->template->file_path);
-        $templateContent = file_get_contents($templatePath);
-
-        // Replace placeholders
-        foreach ($templateData as $key => $value) {
-            $templateContent = str_replace('{{' . $key . '}}', $value ?? '', $templateContent);
-        }
-
-        // Generate PDF
-        $pdf = Pdf::loadHTML($templateContent)
-                  ->setPaper('a4', 'portrait')
-                  ->setOptions([
-                      'defaultFont' => 'sans-serif',
-                      'isHtml5ParserEnabled' => true,
-                      'isPhpEnabled' => true
-                  ]);
-
-        // Save to temporary file
-        $filename = 'invitation_' . $invitation->slug . '_' . time() . '.pdf';
-        $tempPath = storage_path('app/temp/' . $filename);
-        
-        // Create temp directory if it doesn't exist
-        if (!file_exists(dirname($tempPath))) {
-            mkdir(dirname($tempPath), 0755, true);
-        }
-
-        $pdf->save($tempPath);
-        
-        return $tempPath;
-    }
 
     /**
      * Show communication page for specific invitation

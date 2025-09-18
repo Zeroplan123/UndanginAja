@@ -123,6 +123,18 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Email Maintenance Mode
+    |--------------------------------------------------------------------------
+    |
+    | When this option is enabled, the email sending functionality will be
+    | disabled and users will see a maintenance message instead.
+    |
+    */
+
+    'email_maintenance' => env('EMAIL_MAINTENANCE', true),
+
    
 
 ];

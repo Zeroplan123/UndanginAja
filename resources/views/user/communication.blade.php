@@ -54,36 +54,122 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Email Section -->
+                @if(config('app.email_maintenance', true))
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-2xl opacity-75">
+                @else
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-2xl">
-                    <div class="bg-gray-50 rounded-lg shadow-md p-6 relative">
-                        <div class="flex items-center mb-4">
-                            <svg class="w-6 h-6 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
-                            </svg>
-                            <h3 class="text-lg font-semibold text-gray-500">Kirim via Email</h3>
-                            <span class="ml-auto bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Coming Soon</span>
+                @endif
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center">
+                            @if(config('app.email_maintenance', true))
+                            <div class="p-2 bg-gray-100 rounded-lg mr-3">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-500">📧 Kirim via Email</h4>
+                                <p class="text-sm text-gray-500">Sedang dalam maintenance</p>
+                            </div>
+                            <span class="ml-auto bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Maintenance</span>
+                            @else
+                            <div class="p-2 bg-blue-100 rounded-lg mr-3">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">📧 Kirim via Email</h4>
+                                <p class="text-sm text-gray-600">Kirim undangan dengan attachment PDF</p>
+                            </div>
+                            @endif
                         </div>
-                        
-                        <p class="text-gray-500 mb-4">
-                            Fitur pengiriman undangan via email sedang dalam pengembangan dan akan segera tersedia.
-                        </p>
                     </div>
                     
                     <div class="p-6">
+                        @if(config('app.email_maintenance', true))
                         <div class="text-center py-8">
-                            <div class="mx-auto w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                                <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            <div class="mx-auto w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                                <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                                 </svg>
                             </div>
-                            <h4 class="text-lg font-medium text-gray-700 mb-2">Fitur Sedang Dikembangkan</h4>
-                            <p class="text-gray-500 mb-4">Pengiriman undangan via email akan tersedia dalam update mendatang.</p>
+                            <h4 class="text-lg font-medium text-gray-700 mb-2">Fitur Sedang Maintenance</h4>
+                            <p class="text-gray-500 mb-4">Pengiriman undangan via email sedang dalam perbaikan dan akan segera tersedia kembali.</p>
+                            
+                            <div class="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
+                                <div class="flex items-start">
+                                    <svg class="w-5 h-5 text-orange-600 mt-0.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div class="text-left">
+                                        <p class="text-sm text-orange-800 font-medium mb-1">🔧 Sedang Diperbaiki</p>
+                                        <p class="text-sm text-orange-700">
+                                            Kami sedang melakukan perbaikan pada sistem email untuk memberikan pengalaman yang lebih baik.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
                                 <p class="text-sm text-blue-700">
-                                    <strong>Sementara ini:</strong> Gunakan fitur WhatsApp untuk mengirim undangan kepada tamu Anda.
+                                    <strong>Sementara ini:</strong> Gunakan fitur WhatsApp atau download PDF untuk membagikan undangan kepada tamu Anda.
                                 </p>
                             </div>
                         </div>
+                        @else
+                        <form action="{{ route('communication.send-email', $invitation->slug) }}" method="POST" class="space-y-4">
+                            @csrf
+                            
+                            <div>
+                                <label for="emails" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Email Penerima <span class="text-red-500">*</span>
+                                </label>
+                                <textarea name="emails" id="emails" rows="3" 
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="email1@example.com, email2@example.com, ..."
+                                          required></textarea>
+                                <p class="text-xs text-gray-500 mt-1">Pisahkan multiple email dengan koma</p>
+                            </div>
+
+                            <div>
+                                <label for="recipient_names" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Nama Penerima (Opsional)
+                                </label>
+                                <textarea name="recipient_names" id="recipient_names" rows="2" 
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="Nama 1, Nama 2, ..."></textarea>
+                                <p class="text-xs text-gray-500 mt-1">Pisahkan nama dengan koma, sesuai urutan email</p>
+                            </div>
+
+                            <div>
+                                <label for="custom_message" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Pesan Khusus (Opsional)
+                                </label>
+                                <textarea name="custom_message" id="custom_message" rows="3" 
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="Tambahkan pesan personal untuk tamu undangan..."></textarea>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" name="include_pdf" id="include_pdf" value="1" checked
+                                       class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <label for="include_pdf" class="ml-2 block text-sm text-gray-700">
+                                    Sertakan attachment PDF undangan
+                                </label>
+                            </div>
+
+                            <div class="pt-4">
+                                <button type="submit" 
+                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                    </svg>
+                                    Kirim Email
+                                </button>
+                            </div>
+                        </form>
+                        @endif
                     </div>
                 </div>
 
@@ -112,14 +198,6 @@
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                                     placeholder="08123456789, 081234567890, +6281234567891"></textarea>
                                 <p class="text-xs text-gray-500 mt-1">Pisahkan dengan koma untuk multiple nomor</p>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Pesan Custom (Opsional)</label>
-                                <textarea name="custom_message" rows="4" maxlength="300"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                    placeholder="Kosongkan untuk menggunakan template pesan default..."></textarea>
-                                <p class="text-xs text-gray-500 mt-1">Maksimal 300 karakter. Pesan akan include link download PDF.</p>
                             </div>
                             
                             <!-- WhatsApp Info -->
