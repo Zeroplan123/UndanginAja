@@ -36,7 +36,7 @@
                 <nav class="flex items-center justify-between p-6 lg:px-12">
                     <!-- Logo -->
                     <div class="flex items-center space-x-2">
-                        <img src="{{asset('build/assets/logo.png')}}" alt="" class="w-14 h-14 rounded-lg">
+                        <img src="{{asset('images/logo.png')}}" alt="" class="w-14 h-14 rounded-lg">
                     </div>
                     
                     <!-- Desktop Menu -->
