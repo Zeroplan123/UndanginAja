@@ -27,7 +27,7 @@
                     {{-- Cover Image --}}
                     <div class="h-48 bg-gray-200 overflow-hidden">
                         @if($template->cover_image)
-                            <img src="{{ asset('storage/template_covers/'.$template->cover_image) }}" 
+                            <img src="{{ $template->cover_image_url }}" 
                                  alt="{{ $template->name }}" 
                                  class="w-full h-full object-cover">
                         @else

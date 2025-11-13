@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#f3f4f6"/>
+  <rect x="50" y="50" width="300" height="200" fill="#e5e7eb" stroke="#d1d5db" stroke-width="2"/>
+  <rect x="70" y="70" width="100" height="60" fill="#d1d5db"/>
+  <rect x="190" y="70" width="140" height="20" fill="#d1d5db"/>
+  <rect x="190" y="100" width="100" height="20" fill="#d1d5db"/>
+  <text x="50%" y="85%" font-family="Arial, sans-serif" font-size="14" fill="#6b7280" text-anchor="middle" dominant-baseline="middle">Template Cover</text>
+</svg>

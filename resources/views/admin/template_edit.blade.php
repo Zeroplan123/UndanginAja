@@ -12,6 +12,9 @@
                 <form method="POST" action="{{ route('templates.update', $template->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+                    
+                    <!-- Hidden source_type field -->
+                    <input type="hidden" name="source_type" value="manual">
 
                     <!-- Nama Template -->
                     <div class="mb-4">
@@ -47,7 +50,7 @@
                         
                         @if($template->cover_image)
                             <div class="mb-2">
-                                <img src="{{ asset('storage/template_covers/'.$template->cover_image) }}" 
+                                <img src="{{ $template->cover_image_url }}" 
                                      alt="Current cover" 
                                      class="h-32 w-48 object-cover rounded border">
                                 <p class="text-sm text-gray-600 mt-1">Cover image saat ini</p>
@@ -66,25 +69,54 @@
 
                     <!-- HTML Content -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Konten HTML Template</label>
-                        <div class="border border-gray-300 rounded-md overflow-hidden">
-                            <div class="bg-gray-50 px-4 py-2 border-b">
-                                <div class="flex space-x-2 flex-wrap">
-                                    <button type="button" onclick="insertVariable('[bride_name]')" class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded mb-1">Nama Mempelai Wanita</button>
-                                    <button type="button" onclick="insertVariable('[groom_name]')" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mb-1">Nama Mempelai Pria</button>
-                                    <button type="button" onclick="insertVariable('[wedding_date]')" class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded mb-1">Tanggal Pernikahan</button>
-                                    <button type="button" onclick="insertVariable('[wedding_time]')" class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded mb-1">Waktu Pernikahan</button>
-                                    <button type="button" onclick="insertVariable('[venue]')" class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded mb-1">Tempat Acara</button>
-                                    <button type="button" onclick="insertVariable('[location]')" class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded mb-1">Alamat Lengkap</button>
-                                    <button type="button" onclick="insertVariable('[additional_notes]')" class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-1">Catatan Tambahan</button>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Konten HTML Template
+                            <span class="text-red-500">*</span>
+                        </label>
+                        
+                        <!-- Info untuk Edit -->
+                        <div class="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                            <div class="flex items-start">
+                                <i class="fas fa-code text-blue-500 mt-1 mr-2"></i>
+                                <div class="text-sm text-blue-700">
+                                    <strong>Edit HTML Template:</strong>
+                                    <ul class="mt-1 list-disc list-inside space-y-1">
+                                        <li>Edit HTML code langsung di textarea</li>
+                                        <li>Gunakan variable seperti [bride_name], [groom_name], dll</li>
+                                        <li>HTML akan disimpan dan ditampilkan sesuai yang Anda ketik</li>
+                                        <li>Gunakan Preview untuk melihat hasil render</li>
+                                    </ul>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="border border-gray-300 rounded-md overflow-hidden">
+                            <!-- Variable Buttons -->
+                            <div class="bg-gray-50 px-4 py-2 border-b">
+                                <div class="flex space-x-2 flex-wrap">
+                                    <button type="button" onclick="insertVariable('[bride_name]')" class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded mb-1 hover:bg-pink-200 transition-colors">Nama Mempelai Wanita</button>
+                                    <button type="button" onclick="insertVariable('[groom_name]')" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mb-1 hover:bg-blue-200 transition-colors">Nama Mempelai Pria</button>
+                                    <button type="button" onclick="insertVariable('[wedding_date]')" class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded mb-1 hover:bg-green-200 transition-colors">Tanggal Pernikahan</button>
+                                    <button type="button" onclick="insertVariable('[wedding_time]')" class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded mb-1 hover:bg-yellow-200 transition-colors">Waktu Pernikahan</button>
+                                    <button type="button" onclick="insertVariable('[venue]')" class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded mb-1 hover:bg-purple-200 transition-colors">Tempat Acara</button>
+                                    <button type="button" onclick="insertVariable('[location]')" class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded mb-1 hover:bg-indigo-200 transition-colors">Alamat Lengkap</button>
+                                    <button type="button" onclick="insertVariable('[additional_notes]')" class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mb-1 hover:bg-gray-200 transition-colors">Catatan Tambahan</button>
+                                </div>
+                            </div>
+                            
+                            <!-- HTML Textarea -->
                             <textarea name="html_content" 
                                       id="html_content"
                                       rows="20"
                                       class="w-full p-4 border-0 focus:ring-0 font-mono text-sm"
                                       placeholder="Masukkan HTML template di sini..."
-                                      required>{{ old('html_content', $template->html_content) }}</textarea>
+                                      required>{!! old('html_content', $template->html_content) !!}</textarea>
+                        </div>
+                        
+                        <!-- Info -->
+                        <div class="mt-2 p-2 bg-gray-50 border border-gray-200 rounded text-sm text-gray-700">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            <strong>Info:</strong> HTML code ditampilkan apa adanya. Edit langsung untuk mengubah template.
                         </div>
                         @error('html_content')
                             <span class="text-red-600 text-sm">{{ $message }}</span>

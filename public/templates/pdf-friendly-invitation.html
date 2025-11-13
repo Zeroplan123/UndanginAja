@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Undangan Pernikahan</title>
+  
+  <style>
+    /* Reset dan Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Times New Roman', serif;
+      line-height: 1.6;
+      color: #2c3e50;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    /* Container utama */
+    .invitation-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Header dengan ornamen */
+    .header {
+      background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+      padding: 40px 30px;
+      position: relative;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="70" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="80" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+      opacity: 0.3;
+    }
+    
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      font-weight: normal;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .header .subtitle {
+      font-size: 1.2em;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Content area */
+    .content {
+      padding: 40px 30px;
+    }
+    
+    /* Couple names section */
+    .couple-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .couple-names {
+      font-size: 2.2em;
+      color: #667eea;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    
+    .couple-subtitle {
+      font-size: 1.1em;
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    
+    /* Event details */
+    .event-details {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .event-item {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .event-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .event-label {
+      font-weight: bold;
+      color: #2c3e50;
+      min-width: 80px;
+      margin-right: 15px;
+    }
+    
+    .event-value {
+      color: #34495e;
+      flex: 1;
+    }
+    
+    /* Quote section */
+    .quote-section {
+      text-align: center;
+      margin: 30px 0;
+      padding: 25px;
+      background: linear-gradient(135deg, #667eea20, #764ba220);
+      border-radius: 10px;
+      border: 1px solid #667eea30;
+    }
+    
+    .quote-text {
+      font-size: 1.1em;
+      font-style: italic;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .quote-source {
+      font-size: 0.9em;
+      color: #7f8c8d;
+    }
+    
+    /* Location section */
+    .location-section {
+      background: white;
+      border: 2px solid #ecf0f1;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .location-title {
+      font-size: 1.3em;
+      color: #667eea;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .location-address {
+      text-align: center;
+      color: #2c3e50;
+      line-height: 1.8;
+    }
+    
+    /* RSVP section */
+    .rsvp-section {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      text-align: center;
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .rsvp-title {
+      font-size: 1.3em;
+      margin-bottom: 15px;
+    }
+    
+    .rsvp-text {
+      margin-bottom: 15px;
+      opacity: 0.9;
+    }
+    
+    .contact-info {
+      font-size: 0.95em;
+      opacity: 0.8;
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #7f8c8d;
+      font-size: 0.9em;
+      border-top: 1px solid #ecf0f1;
+    }
+    
+    /* Decorative elements */
+    .divider {
+      text-align: center;
+      margin: 30px 0;
+      position: relative;
+    }
+    
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #667eea, transparent);
+    }
+    
+    .divider-text {
+      background: white;
+      padding: 0 20px;
+      color: #667eea;
+      font-size: 1.2em;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .invitation-container {
+        border-radius: 10px;
+      }
+      
+      .header {
+        padding: 30px 20px;
+      }
+      
+      .header h1 {
+        font-size: 2em;
+      }
+      
+      .content {
+        padding: 30px 20px;
+      }
+      
+      .couple-names {
+        font-size: 1.8em;
+      }
+      
+      .event-details {
+        padding: 20px;
+      }
+      
+      .event-item {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+      }
+      
+      .event-label {
+        margin-bottom: 5px;
+        margin-right: 0;
+        min-width: auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1.7em;
+      }
+      
+      .couple-names {
+        font-size: 1.5em;
+      }
+      
+      .event-details,
+      .quote-section,
+      .location-section,
+      .rsvp-section {
+        padding: 15px;
+      }
+    }
+    
+    /* Print/PDF specific styles */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      
+      .invitation-container {
+        box-shadow: none;
+        border-radius: 0;
+        max-width: none;
+      }
+      
+      .header::before {
+        display: none;
+      }
+    }
+    
+    /* PDF export optimization */
+    @page {
+      margin: 1cm;
+      size: A4;
+    }
+  </style>
+</head>
+<body>
+  <div class="invitation-container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Undangan Pernikahan</h1>
+      <div class="subtitle">Wedding Invitation</div>
+    </div>
+    
+    <!-- Content -->
+    <div class="content">
+      <!-- Couple Section -->
+      <div class="couple-section">
+        <div class="couple-names">{{BRIDE_NAME}} &amp; {{GROOM_NAME}}</div>
+        <div class="couple-subtitle">Dengan penuh sukacita, kami mengundang Anda</div>
+      </div>
+      
+      <!-- Divider -->
+      <div class="divider">
+        <span class="divider-text">❤</span>
+      </div>
+      
+      <!-- Event Details -->
+      <div class="event-details">
+        <div class="event-item">
+          <div class="event-label">Hari:</div>
+          <div class="event-value">{{EVENT_DAY}}</div>
+        </div>
+        <div class="event-item">
+          <div class="event-label">Tanggal:</div>
+          <div class="event-value">{{EVENT_DATE}}</div>
+        </div>
+        <div class="event-item">
+          <div class="event-label">Waktu:</div>
+          <div class="event-value">{{EVENT_TIME}}</div>
+        </div>
+        <div class="event-item">
+          <div class="event-label">Acara:</div>
+          <div class="event-value">{{EVENT_TYPE}}</div>
+        </div>
+      </div>
+      
+      <!-- Quote Section -->
+      <div class="quote-section">
+        <div class="quote-text">
+          "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang."
+        </div>
+        <div class="quote-source">- QS. Ar-Rum: 21 -</div>
+      </div>
+      
+      <!-- Location Section -->
+      <div class="location-section">
+        <div class="location-title">Lokasi Acara</div>
+        <div class="location-address">
+          {{VENUE_NAME}}<br>
+          {{VENUE_ADDRESS}}<br>
+          {{VENUE_CITY}}
+        </div>
+      </div>
+      
+      <!-- RSVP Section -->
+      <div class="rsvp-section">
+        <div class="rsvp-title">Konfirmasi Kehadiran</div>
+        <div class="rsvp-text">
+          Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.
+        </div>
+        <div class="contact-info">
+          Konfirmasi: {{CONTACT_PHONE}} | {{CONTACT_NAME}}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <div>Atas kehadiran dan doa restu Anda, kami ucapkan terima kasih.</div>
+      <div style="margin-top: 10px; font-style: italic;">
+        Keluarga {{BRIDE_FAMILY}} &amp; {{GROOM_FAMILY}}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

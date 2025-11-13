@@ -62,6 +62,7 @@ class UserDashboardController extends Controller
             'bride_name' => 'required|string|max:255',
             'wedding_date' => 'required|date',
             'wedding_time' => 'required|string',
+            'venue' => 'required|string|max:255',
             'location' => 'required|string|max:500',
             'additional_notes' => 'nullable|string|max:1000',
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
@@ -74,7 +75,7 @@ class UserDashboardController extends Controller
         $invitation->bride_name = $request->bride_name;
         $invitation->wedding_date = $request->wedding_date;
         $invitation->wedding_time = $request->wedding_time;
-        $invitation->venue = $request->location; // Map location to venue
+        $invitation->venue = $request->venue;
         $invitation->location = $request->location;
         $invitation->additional_notes = $request->additional_notes;
         $invitation->slug = Str::slug($request->groom_name . '-' . $request->bride_name . '-' . time());

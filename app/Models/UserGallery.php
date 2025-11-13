@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
+use App\Helpers\StorageHelper;
 
 class UserGallery extends Model
 {
@@ -55,11 +56,11 @@ class UserGallery extends Model
     }
 
     /**
-     * Get file URL.
+     * Get file URL with fallback handling.
      */
     public function getFileUrlAttribute(): string
     {
-        return Storage::disk('public')->url($this->file_path);
+        return StorageHelper::getGalleryImageUrl($this->file_path);
     }
 
     /**
@@ -115,7 +116,7 @@ class UserGallery extends Model
     }
 
     /**
-     * Get thumbnail URL (if exists).
+     * Get thumbnail URL (if exists) with fallback handling.
      */
     public function getThumbnailUrlAttribute(): ?string
     {
@@ -126,7 +127,7 @@ class UserGallery extends Model
         $thumbnailPath = str_replace('/galleries/', '/galleries/thumbnails/', $this->file_path);
         
         if (Storage::disk('public')->exists($thumbnailPath)) {
-            return Storage::disk('public')->url($thumbnailPath);
+            return StorageHelper::getRelativeStorageUrl($thumbnailPath);
         }
 
         return $this->file_url;

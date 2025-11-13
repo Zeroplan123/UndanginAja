@@ -94,10 +94,27 @@
                             </div>
                         </div>
 
-                        <!-- Lokasi -->
+                        <!-- Tempat Pernikahan -->
+                        <div class="mb-6">
+                            <label for="venue" class="block text-sm font-medium text-gray-700 mb-2">
+                                Tempat Pernikahan *
+                            </label>
+                            <input type="text" 
+                                   name="venue" 
+                                   id="venue" 
+                                   value="{{ old('venue') }}"
+                                   required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 @error('venue') border-red-500 @enderror"
+                                   placeholder="Contoh: Gedung Pernikahan Indah, Hotel Grand, dll">
+                            @error('venue')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Alamat Lengkap -->
                         <div class="mb-6">
                             <label for="location" class="block text-sm font-medium text-gray-700 mb-2">
-                                Lokasi Acara *
+                                Alamat Lengkap *
                             </label>
                             <textarea name="location" 
                                       id="location" 
@@ -110,7 +127,7 @@
                             @enderror
                         </div>
 
-                        {{-- <!-- Catatan Tambahan -->
+                        <!-- Catatan Tambahan -->
                         <div class="mb-6">
                             <label for="additional_notes" class="block text-sm font-medium text-gray-700 mb-2">
                                 Catatan Tambahan (Opsional)
@@ -123,7 +140,7 @@
                             @error('additional_notes')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
-                        </div> --}}
+                        </div>
 
                      
 
@@ -144,22 +161,21 @@
                 <!-- Template Preview Section -->
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-2xl">
                     <div class="p-6 border-b border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-800">Preview Template</h3>
                         <p class="text-gray-600 text-sm mt-1">{{ $template->name }}</p>
                     </div>
                     
                     <div class="p-6">
                         <div class="bg-gray-50 rounded-lg overflow-hidden">
                             @if($template->cover_image)
-                                <img src="{{ asset('storage/template_covers/' . $template->cover_image) }}" 
-                                     alt="{{ $template->name }}"
-                                     class="w-full h-64 object-cover">
+                                <img src="{{ $template->cover_image_url }}" 
+                                     alt="{{ $template->name }}" 
+                                     class="w-full h-64 object-cover"
+                                     onerror="this.src='{{ asset('images/template-placeholder.svg') }}'">
                             @else
                                 <div class="h-64 bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center">
                                     <div class="text-center">
                                         <svg class="w-16 h-16 mx-auto text-pink-300 mb-2" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                                        </svg>
                                         <p class="text-pink-400 font-medium">{{ $template->name }}</p>
                                     </div>
                                 </div>

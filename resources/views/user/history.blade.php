@@ -100,15 +100,36 @@
                                         </div>
 
                                         <!-- Additional Actions -->
-                                        <div class="flex space-x-2 mb-2">
-                                            <button class="flex-1 text-center text-gray-600 hover:text-pink-600 text-xs font-medium transition-colors duration-200"
+                                        <div class="grid grid-cols-2 gap-2 mb-2">
+                                            <button class="text-center text-gray-600 hover:text-pink-600 text-xs font-medium transition-colors duration-200 py-1"
                                                     onclick="copyInvitationLink('{{ route('user.invitation.preview', $invitation->slug) }}')">
                                                 📋 Salin Link
                                             </button>
-                                            <a href="{{ route('user.export-pdf', $invitation->slug) }}" 
-                                               class="flex-1 text-center text-gray-600 hover:text-blue-600 text-xs font-medium transition-colors duration-200">
-                                                📄 Download PDF
-                                            </a>
+                                            <div class="relative">
+                                                <button class="w-full text-center text-gray-600 hover:text-blue-600 text-xs font-medium transition-colors duration-200 py-1"
+                                                        onclick="togglePdfMenu({{ $invitation->id }})">
+                                                    📄 Export PDF ▼
+                                                </button>
+                                                <!-- PDF Export Dropdown -->
+                                                <div id="pdf-menu-{{ $invitation->id }}" class="hidden absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-10 mt-1">
+                                                    <a href="{{ route('invitations.export-pdf-via-image', $invitation->id) }}" 
+                                                       class="block px-3 py-2 text-xs text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors duration-200"
+                                                       target="_blank">
+                                                        🖼️ Via Image (Best Quality)
+                                                    </a>
+                                                    <a href="{{ route('user.export-pdf', $invitation->slug) }}" 
+                                                       class="block px-3 py-2 text-xs text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200"
+                                                       target="_blank">
+                                                        ⚡ Standard PDF
+                                                    </a>
+                                                    <hr class="my-1">
+                                                    <a href="{{ route('invitations.debug-template', $invitation->id) }}" 
+                                                       class="block px-3 py-2 text-xs text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors duration-200"
+                                                       target="_blank">
+                                                        🔍 Debug Template
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                         
                                         <!-- Communication Button -->
@@ -154,7 +175,7 @@
                                         <!-- Template Preview -->
                                         <div class="relative h-48 bg-gradient-to-br from-pink-100 to-purple-100 overflow-hidden">
                                             @if($template->cover_image)
-                                                <img src="{{ asset('storage/template_covers/' . $template->cover_image) }}" 
+                                                <img src="{{ $template->cover_image_url }}" 
                                                      alt="{{ $template->name }}"
                                                      class="w-full h-full object-cover">
                                             @else

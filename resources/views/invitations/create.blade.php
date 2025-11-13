@@ -23,8 +23,8 @@
                                         <input type="radio" name="template_id" value="{{ $template->id }}" id="template_{{ $template->id }}" class="sr-only" {{ old('template_id') == $template->id ? 'checked' : '' }}>
                                         <label for="template_{{ $template->id }}" class="block cursor-pointer">
                                             <div class="border-2 border-gray-200 rounded-lg overflow-hidden hover:border-blue-500 transition-colors template-card">
-                                                @if($template->preview_image)
-                                                    <img src="{{ asset('storage/' . $template->preview_image) }}" alt="{{ $template->name }}" class="w-full h-32 object-cover">
+                                                @if($template->cover_image)
+                                                    <img src="{{ $template->cover_image_url }}" alt="{{ $template->name }}" class="w-full h-32 object-cover">
                                                 @else
                                                     <div class="w-full h-32 bg-gray-200 flex items-center justify-center">
                                                         <span class="text-gray-500">{{ $template->name }}</span>
@@ -136,9 +136,27 @@
     </div>
 
     <style>
-        .template-card input[type="radio"]:checked + label .border-2 {
-            border-color: #3b82f6;
-            background-color: #eff6ff;
+        /* Template card hover effect */
+        .template-card {
+            transition: all 0.3s ease;
+        }
+        
+        .template-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        /* Hide radio button visually but keep it accessible */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
     </style>
 </x-app-layout>

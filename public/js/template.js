@@ -11,28 +11,113 @@ function insertVariable(variable) {
 
 function previewTemplate() {
     const htmlContent = document.getElementById('html_content').value;
-    
-    // Replace variabel dengan data sample untuk preview
-    let previewHtml = htmlContent
-        .replace(/\[bride_name\]/g, 'Siti Nurhaliza')
-        .replace(/\[groom_name\]/g, 'Ahmad Dhani')
-        .replace(/\[wedding_date\]/g, '25 Desember 2024')
-        .replace(/\[wedding_time\]/g, '10:00 WIB')
-        .replace(/\[venue\]/g, 'Hotel Grand Indonesia')
-        .replace(/\[location\]/g, 'Jl. MH Thamrin No.1, Jakarta Pusat')
-        .replace(/\[additional_notes\]/g, 'Mohon kehadiran Bapak/Ibu/Saudara/i')
-        // Legacy support
-        .replace(/\[nama_mempelai_pria\]/g, 'Ahmad Dhani')
-        .replace(/\[nama_mempelai_wanita\]/g, 'Siti Nurhaliza')
-        .replace(/\[tanggal_pernikahan\]/g, '25 Desember 2024')
-        .replace(/\[waktu_pernikahan\]/g, '10:00 WIB')
-        .replace(/\[lokasi_pernikahan\]/g, 'Hotel Grand Indonesia, Jakarta');
-
+    const modal = document.getElementById('previewModal');
     const previewFrame = document.getElementById('previewFrame');
-    const blob = new Blob([previewHtml], { type: 'text/html' });
-    previewFrame.src = URL.createObjectURL(blob);
     
-    document.getElementById('previewModal').classList.remove('hidden');
+    if (!htmlContent.trim()) {
+        alert('Tidak ada konten HTML untuk di-preview');
+        return;
+    }
+
+    try {
+        // Show loading
+        modal.classList.remove('hidden');
+        
+        // Sample data untuk preview
+        const sampleData = {
+            bride_name: 'Siti Nurhaliza',
+            groom_name: 'Ahmad Dhani',
+            wedding_date: '25 Desember 2024',
+            wedding_time: '10:00 WIB',
+            venue: 'Hotel Grand Indonesia',
+            location: 'Jl. MH Thamrin No.1, Jakarta Pusat',
+            additional_notes: 'Mohon kehadiran Bapak/Ibu/Saudara/i untuk berbagi kebahagiaan bersama kami'
+        };
+        
+        // Replace variables dengan sample data
+        let previewHtml = htmlContent;
+        for (const [key, value] of Object.entries(sampleData)) {
+            const regex = new RegExp(`\\[${key}\\]`, 'g');
+            previewHtml = previewHtml.replace(regex, value);
+        }
+        
+        // Basic sanitization - remove dangerous tags
+        previewHtml = sanitizeHtmlForPreview(previewHtml);
+        
+        // Create complete HTML document
+        const fullHtml = `
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Template</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .preview-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        ${previewHtml}
+    </div>
+</body>
+</html>`;
+        
+        // Create blob and object URL
+        const blob = new Blob([fullHtml], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        previewFrame.src = url;
+        
+        // Cleanup URL after load
+        previewFrame.onload = () => {
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        };
+
+    } catch (error) {
+        console.error('Preview failed:', error);
+        previewFrame.src = 'data:text/html,<div style="padding:20px;text-align:center;color:red;font-family:sans-serif;">❌ Preview gagal dimuat. Periksa konten HTML Anda.<br><small>' + error.message + '</small></div>';
+    }
+}
+
+/**
+ * Basic HTML sanitization untuk preview
+ * Menghapus tag dan atribut berbahaya
+ */
+function sanitizeHtmlForPreview(html) {
+    // Remove script tags
+    html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    
+    // Remove iframe tags
+    html = html.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '');
+    
+    // Remove object/embed tags
+    html = html.replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '');
+    html = html.replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '');
+    
+    // Remove form tags
+    html = html.replace(/<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi, '');
+    
+    // Remove dangerous event handlers
+    html = html.replace(/\son\w+\s*=\s*["'][^"']*["']/gi, '');
+    html = html.replace(/\son\w+\s*=\s*[^\s>]*/gi, '');
+    
+    // Remove javascript: protocol
+    html = html.replace(/javascript:/gi, '');
+    
+    return html;
 }
 
 function closePreview() {
@@ -41,12 +126,8 @@ function closePreview() {
     URL.revokeObjectURL(previewFrame.src);
 }
 
-// Close modal when clicking outside
-document.getElementById('previewModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closePreview();
-    }
-});
+// Close modal when clicking outside - moved to DOMContentLoaded
+// (handled in template_create.blade.php inline script)
 
 // Real-time template name validation
 let nameCheckTimeout;

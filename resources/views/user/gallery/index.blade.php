@@ -95,7 +95,7 @@
                 <div class="instagram-grid">
                     @foreach($galleryItems as $index => $item)
                         <div class="gallery-item gallery-item-enhanced group gallery-item-link" 
-                             data-src="{{ asset('storage/' . $item->file_path) }}"
+                             data-src="{{ $item->file_url }}"
                              data-sub-html="<h4>{{ $item->original_name }}</h4><p>{{ $item->caption ?: 'Uploaded on ' . $item->created_at->format('M d, Y') }}</p>">
                             
                             <!-- Selection Checkbox -->
@@ -105,10 +105,10 @@
                             
                             <!-- Photo Container with Perfect Square Aspect Ratio -->
                             <div class="photo-container">
-                                <img src="{{ asset('storage/' . $item->file_path) }}" 
+                                <img src="{{ $item->file_url }}" 
                                      alt="{{ $item->caption ?: $item->original_name }}"
                                      loading="lazy"
-                                     onerror="console.log('Image failed to load:', this.src); this.src='{{ asset('images/placeholder.jpg') }}'">
+                                     onerror="console.log('Image failed to load:', this.src); this.src='{{ asset('images/gallery-placeholder.svg') }}'">
                                 
                                 <!-- Subtle Professional Hover Overlay -->
                                 <div class="photo-overlay absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">

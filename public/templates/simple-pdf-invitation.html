@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+        
+        .invitation-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #8B4513;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header {
+            background: #8B4513;
+            color: white;
+            padding: 20px;
+            margin: -40px -40px 30px -40px;
+        }
+        
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            font-style: italic;
+        }
+        
+        .names {
+            font-size: 32px;
+            font-weight: bold;
+            color: #8B4513;
+            margin: 30px 0;
+            line-height: 1.2;
+        }
+        
+        .bride-name, .groom-name {
+            display: block;
+            margin: 10px 0;
+        }
+        
+        .connector {
+            font-size: 24px;
+            color: #666;
+            margin: 15px 0;
+        }
+        
+        .event-details {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+        
+        .date-time {
+            font-size: 20px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 15px;
+        }
+        
+        .venue {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .location {
+            font-size: 16px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .additional-notes {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-left: 4px solid #8B4513;
+            font-style: italic;
+        }
+        
+        .decoration {
+            font-size: 24px;
+            color: #8B4513;
+            margin: 20px 0;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #888;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        
+        /* Remove problematic CSS for LibreOffice */
+        .no-gradient {
+            background: #8B4513 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="header no-gradient">
+            <div class="title">Wedding Invitation</div>
+            <div class="subtitle">Undangan Pernikahan</div>
+        </div>
+        
+        <div class="decoration">❀ ❀ ❀</div>
+        
+        <div class="names">
+            <span class="bride-name">[bride_name]</span>
+            <div class="connector">&</div>
+            <span class="groom-name">[groom_name]</span>
+        </div>
+        
+        <div class="decoration">❀</div>
+        
+        <div class="event-details">
+            <div class="date-time">[wedding_date]</div>
+            <div class="date-time">[wedding_time]</div>
+            
+            <div class="venue">[venue]</div>
+            <div class="location">[location]</div>
+        </div>
+        
+        <div class="decoration">❀ ❀ ❀</div>
+        
+        <div class="additional-notes">
+            [additional_notes]
+        </div>
+        
+        <div class="footer">
+            <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami</p>
+            <p>apabila Bapak/Ibu/Saudara/i berkenan hadir</p>
+            <p>untuk memberikan doa restu kepada kedua mempelai</p>
+            <br>
+            <p><em>Terima kasih atas perhatian dan doa restunya</em></p>
+        </div>
+    </div>
+</body>
+</html>

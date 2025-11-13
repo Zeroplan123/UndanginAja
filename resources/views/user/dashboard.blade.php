@@ -19,7 +19,7 @@
                                     <!-- Template Preview -->
                                     <div class="relative h-48 bg-gradient-to-br from-pink-100 to-purple-100 overflow-hidden">
                                         @if($template->cover_image)
-                                            <img src="{{ asset('storage/template_covers/' . $template->cover_image) }}" 
+                                            <img src="{{ $template->cover_image_url }}" 
                                                  alt="{{ $template->name }}"
                                                  class="w-full h-full object-cover">
                                         @else
@@ -44,7 +44,6 @@
                                         
                                         <div class="flex space-x-2">
                                             <a href="{{ route('templates.preview', $template->id) }}" 
-                                               target="_blank"
                                                class="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200">
                                                 Preview
                                             </a>

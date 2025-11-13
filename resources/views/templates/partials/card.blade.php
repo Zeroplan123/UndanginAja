@@ -2,7 +2,7 @@
     @if($template->preview_image)
         <img src="{{ asset('storage/' . $template->preview_image) }}" alt="{{ $template->name }}" class="w-full h-48 object-cover">
     @elseif($template->cover_image)
-        <img src="{{ asset('storage/' . $template->cover_image) }}" alt="{{ $template->name }}" class="w-full h-48 object-cover">
+        <img src="{{ $template->cover_image_url }}" alt="{{ $template->name }}" class="w-full h-48 object-cover">
     @else
         <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
             <div class="text-center">

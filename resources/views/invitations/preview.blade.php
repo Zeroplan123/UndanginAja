@@ -1,4 +1,5 @@
 <x-app-layout>
+    
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Preview Undangan') }}
@@ -23,8 +24,43 @@
 
                     <div class="border rounded-lg p-4 bg-gray-50">
                         <div class="invitation-preview">
-                            @if($invitation->template && $invitation->template->html_content)
-                                {!! $invitation->template->getCompiledHtml($variables) !!}
+                            @if($invitation->template && ($invitation->template->html_content || $invitation->template->file_path))
+                                @php
+                                    // Get template content
+                                    $htmlContent = null;
+                                    
+                                    // Try to get HTML content from file_path first
+                                    if (!empty($invitation->template->file_path)) {
+                                        $templatePath = public_path('templates/' . $invitation->template->file_path);
+                                        if (file_exists($templatePath)) {
+                                            $htmlContent = file_get_contents($templatePath);
+                                        }
+                                    }
+                                    
+                                    // Fallback to html_content field if file doesn't exist
+                                    if (empty($htmlContent) && !empty($invitation->template->html_content)) {
+                                        // Decode HTML entities for proper display
+                                        $htmlContent = html_entity_decode($invitation->template->html_content, ENT_QUOTES, 'UTF-8');
+                                    }
+                                    
+                                    // Replace template variables
+                                    if (!empty($htmlContent)) {
+                                        foreach ($variables as $key => $value) {
+                                            $htmlContent = str_replace('[' . $key . ']', $value, $htmlContent);
+                                            $htmlContent = str_replace('{{' . $key . '}}', $value, $htmlContent);
+                                        }
+                                    }
+                                @endphp
+                                
+                                @if(!empty($htmlContent))
+                                    {!! $htmlContent !!}
+                                @else
+                                    <div class="text-center py-12 text-red-600">
+                                        <p>❌ Template content tidak dapat dimuat</p>
+                                        <p class="text-sm">File path: {{ $invitation->template->file_path ?? 'Tidak ada' }}</p>
+                                        <p class="text-sm">HTML content: {{ !empty($invitation->template->html_content) ? 'Ada' : 'Kosong' }}</p>
+                                    </div>
+                                @endif
                             @else
                                 <div class="text-center py-12">
                                     <h1 class="text-4xl font-bold text-gray-800 mb-4">{{ $invitation->bride_name }} & {{ $invitation->groom_name }}</h1>

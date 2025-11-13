@@ -39,6 +39,14 @@ Route::middleware('auth', 'is_user')->group(function () {
     // Invitation CRUD Routes
     Route::resource('invitations', InvitationController::class);
     Route::get('/invitations/{invitation}/preview', [InvitationController::class, 'preview'])->name('invitations.preview');
+    
+    // Debug Routes
+    Route::get('/invitations/{id}/debug-template', [InvitationController::class, 'debugTemplate'])->name('invitations.debug-template');
+    
+    // HTML to Image to PDF Export Routes (NEW)
+    Route::get('/invitations/{id}/export-pdf-via-image', [InvitationController::class, 'exportPdfViaImage'])->name('invitations.export-pdf-via-image');
+    Route::get('/test-image-conversion', [InvitationController::class, 'testImageConversion'])->name('test.image-conversion');
+    Route::get('/test-complete-image-to-pdf', [InvitationController::class, 'testCompleteImageToPdf'])->name('test.complete-image-to-pdf');
 
     // Legacy routes (keep for backward compatibility)
     Route::get('/user/invitations', [UserDashboardController::class, 'myInvitations'])->name('user.my-invitations');
@@ -299,6 +307,10 @@ Route::prefix('admin/templates')->middleware(['auth', 'is_admin'])->group(functi
 
     // Check name availability (AJAX endpoint)
     Route::post('/check-name', [TemplateController::class, 'checkName'])->name('templates.check-name');
+    
+    // Security validation endpoints
+    Route::post('/validate-security', [TemplateController::class, 'validateHtmlSecurity'])->name('templates.validate-security');
+    Route::post('/secure-preview', [TemplateController::class, 'getSecurePreview'])->name('templates.secure-preview');
     
     // Create - Form tambah template
     Route::get('/create', [TemplateController::class, 'create'])->name('templates.create');

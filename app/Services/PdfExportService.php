@@ -13,8 +13,8 @@ class PdfExportService
      */
     public function generateInvitationPdf($invitation, $templateData = [])
     {
-        // Get the compiled HTML
-        $html = $invitation->template->getCompiledHtml($templateData);
+        // Get the compiled HTML with forPdf=true to prevent HTML escaping
+        $html = $invitation->template->getCompiledHtml($templateData, true);
         
         // Process HTML for PDF compatibility
         $pdfHtml = $this->processPdfHtml($html);
@@ -120,6 +120,25 @@ class PdfExportService
                 line-height: 1.4;
                 color: #333333;
                 background: white !important;
+                overflow: hidden !important;
+            }
+            
+            /* Hide scrollbars */
+            html, body {
+                overflow: hidden !important;
+                overflow-x: hidden !important;
+                overflow-y: hidden !important;
+            }
+            
+            *::-webkit-scrollbar {
+                display: none !important;
+                width: 0 !important;
+                height: 0 !important;
+            }
+            
+            * {
+                scrollbar-width: none !important;
+                -ms-overflow-style: none !important;
             }
             
             /* Ensure text is readable */
@@ -268,6 +287,11 @@ class PdfExportService
      */
     public function createPdfTemplate($originalHtml)
     {
+        // Decode HTML entities if needed
+        if (strpos($originalHtml, '&lt;') !== false) {
+            $originalHtml = html_entity_decode($originalHtml, ENT_QUOTES, 'UTF-8');
+        }
+        
         // Create a PDF-optimized version of the template
         $pdfTemplate = $this->processPdfHtml($originalHtml);
         

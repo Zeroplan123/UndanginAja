@@ -151,11 +151,11 @@
             </x-responsive-nav-link>
         </div>
 
-        <div class="pt-2 pb-3 space-y-1">
+        {{-- <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.penyemangat')" :active="request()->routeIs('admin.penyemangat')" class="text-neutral-800">
             {{ __('Penyemagat') }}
             </x-responsive-nav-link>
-        </div>
+        </div> --}}
 
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.broadcasts.index')" :active="request()->routeIs('admin.broadcasts.index')" class="text-neutral-800">
